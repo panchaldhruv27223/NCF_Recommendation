@@ -12,7 +12,6 @@ Dataset/
 data/
 datasets/
 
-*.csv
 *.json
 *.xml
 
