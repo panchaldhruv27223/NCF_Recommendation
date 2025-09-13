@@ -37,7 +37,6 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
     
     if config["learner"].lower() == "adam":
         optimizer = optim.Adam(model.parameters(), lr=config["lr"])
-        
     elif config["learner"].lower() == "adagrad":
         optimizer = optim.Adagrad(model.parameters(), lr=config["lr"])
     elif config["learner"].lower() == "rmsprop":
