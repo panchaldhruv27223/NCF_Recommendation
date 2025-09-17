@@ -64,9 +64,7 @@ def main(learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_size= 256, num
     train_logger.info(f"NeuMF Model passed for training...")
     eval_logger.info("NeuMF Model Passed for Evaluation...")
     
-    train_NeuMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_loager = eval_logger, device="cpu")  
-
-
+    train_NeuMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_loager = eval_logger, device="cpu")
 
 if __name__ == "__main__":
     print("Calling from NeuMF Training.")

@@ -6,7 +6,7 @@ from logger import setup_logger
 
     
 class GMF(nn.Module):
-    def __init__(self, num_users, num_items, latent_dim, reg, train_logger= None):
+    def __init__(self, num_users=6040, num_items=3706, latent_dim=10, reg=[0,0], train_logger= None):
         super(GMF, self).__init__()
         
         ## Users and items embeddings
@@ -23,30 +23,27 @@ class GMF(nn.Module):
         
         
     def forward(self, user, item):
-        self.train_loager.info(f"Users shape: {user.shape}")
-        self.train_loager.info(f"Items shape: {item.shape}")
+        # self.train_loager.info(f"Users shape: {user.shape}")
+        # self.train_loager.info(f"Items shape: {item.shape}")
         
         user_latent = self.user_embeddings(user)
         item_latent = self.item_embeddings(item)
         
-        self.train_loager.info(f"In Latent Dimensions the shape of user latent: {user_latent.shape}")
-        self.train_loager.info(f"In Latent Dimensions the shape of item latent: {item_latent.shape}")
-        
+        # self.train_loager.info(f"In Latent Dimensions the shape of user latent: {user_latent.shape}")
+        # self.train_loager.info(f"In Latent Dimensions the shape of item latent: {item_latent.shape}")
         
         elementwise_product  = user_latent * item_latent
-        self.train_loager.info(f"Point wise multiplication between user and item: {elementwise_product.shape}")
-        
+        # self.train_loager.info(f"Point wise multiplication between user and item: {elementwise_product.shape}")
         
         out = self.output(elementwise_product )
-        self.train_loager.info(f"Output of hidden layer : {out.shape}")
-        
-        
+        # self.train_loager.info(f"Output of hidden layer : {out.shape}")
+
         logits = self.sigmoid(out)
-        self.train_loager.info(f"Output of hidden layer after applying sigmoid : {logits.shape}")
-        
+        # self.train_loager.info(f"Output of hidden layer after applying sigmoid : {logits.shape}")
+
         logits = logits.squeeze()
         # print(logits)
-        
+
         return logits 
     
 
