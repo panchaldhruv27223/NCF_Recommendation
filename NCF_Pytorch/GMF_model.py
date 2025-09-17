@@ -2,13 +2,15 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import os, sys, time
+from logger import setup_logger
 
+    
 class GMF(nn.Module):
-    def __init__(self, num_users, num_items, latent_dim, reg):
+    def __init__(self, num_users, num_items, latent_dim, reg, train_logger= None):
         super(GMF, self).__init__()
         
         ## Users and items embeddings
-        
+        self.train_loager = train_logger
         self.user_embeddings = nn.Embedding(num_embeddings=num_users, embedding_dim=latent_dim)
         self.item_embeddings = nn.Embedding(num_embeddings=num_items, embedding_dim=latent_dim)
         
@@ -21,19 +23,34 @@ class GMF(nn.Module):
         
         
     def forward(self, user, item):
+        self.train_loager.info(f"Users shape: {user.shape}")
+        self.train_loager.info(f"Items shape: {item.shape}")
+        
         user_latent = self.user_embeddings(user)
         item_latent = self.item_embeddings(item)
         
+        self.train_loager.info(f"In Latent Dimensions the shape of user latent: {user_latent.shape}")
+        self.train_loager.info(f"In Latent Dimensions the shape of item latent: {item_latent.shape}")
+        
+        
         elementwise_product  = user_latent * item_latent
+        self.train_loager.info(f"Point wise multiplication between user and item: {elementwise_product.shape}")
+        
         
         out = self.output(elementwise_product )
+        self.train_loager.info(f"Output of hidden layer : {out.shape}")
+        
+        
         logits = self.sigmoid(out)
+        self.train_loager.info(f"Output of hidden layer after applying sigmoid : {logits.shape}")
+        
         logits = logits.squeeze()
         # print(logits)
+        
         return logits 
     
 
-def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvaluation, device="cpu"):
+def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvaluation, train_loager=None, test_loager =None, device="cpu"):
     
     if config["learner"].lower() == "adam":
         optimizer = optim.Adam(model.parameters(), lr=config["lr"])
@@ -47,6 +64,7 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
     criterion = nn.BCELoss()
     
     evaluator = NCFEvaluation(model, test_negative_dataset, top_k = config["topK"])
+    test_loager.info(f"GMF Model Evaluation is defined with topk : {config["topK"]}")
     
     best_hr, best_ndcg, best_epoch = 0, 0, -1
     
@@ -90,18 +108,34 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
         
         avg_loss = total_loss / len(train_loader)
         
-        print(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
+        # print(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
+            #   f"Hit Rate: {hits:.4f}, NDCG: {ndcgs:.4f}, loss: {avg_loss:.4f}")
+        
+        test_loager.info(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
               f"Hit Rate: {hits:.4f}, NDCG: {ndcgs:.4f}, loss: {avg_loss:.4f}")
         
+        
         if hits > best_hr:
+            
             best_hr, best_ndcg, best_epoch = hits, ndcgs, epoch
             
-            if config["out"]:
-                torch.save(model.state_dict(),
-                           f"{config["dataset"]}_GMF_{config["num_factors"]}.pth")
-            print(f"End. Best Iteration {epoch}: HR: {best_hr:.4f}, NDCG:{best_ndcg:.4f}")
+            test_loager.info(f"till now best hr: {best_hr}, best ndcgs: {best_ndcg} and at epoch {best_epoch}")
             
-    print(f"The Best GMF Model is Saved from epoch {best_epoch}")
+            if config["out"]:
+                
+                os.makedirs(config['out_path'], exist_ok=True)
+                
+                torch.save(model.state_dict(),
+                           f"{config['out_path']}/{config["dataset"]}_GMF_Batch_{config["batch_size"]}_epoch_{config["epochs"]}_{config["num_factors"]}.pth")
+            # print(f"End. Best Iteration {epoch}: HR: {best_hr:.4f}, NDCG:{best_ndcg:.4f}")
+    
+
+    test_loager.info(f"The Best GMF Model is Saved from epoch {best_epoch}")
+    test_loager.info("The Best GMF Model is Saved at: \n"+
+                     f"{config['out_path']}/{config["dataset"]}_GMF_Batch_{config["batch_size"]}_epoch_{config["epochs"]}_{config["num_factors"]}.pth")
+    
+
+    # print(f"The Best GMF Model is Saved from epoch {best_epoch}")
     
     return best_hr, best_ndcg
     

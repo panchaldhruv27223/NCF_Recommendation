@@ -12,7 +12,9 @@ Dataset/
 data/
 datasets/
 
+*.pth
 *.json
+*.log
 *.xml
 
 *.dat
