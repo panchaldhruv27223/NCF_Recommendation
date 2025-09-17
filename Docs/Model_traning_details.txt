@@ -1,0 +1,86 @@
+config:
+
+	default : learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10 ):
+    
+	configurations = {
+        "train_data" : Path(os.getcwd()) / "NCF_Pytorch" / "train_data.csv",
+        "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+        "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+        'dataset': 'ml-1m',   ## name of dataset
+        'regs': [0, 0],       ## Regularigaion L1, L2
+        'lr': 0.001,          ## Learning Rate
+        'batch_size': batch_size,    ## Batch Size
+        'epochs': epochs,          ## Training Epochs
+        'learner': learner,    ## Optimizer
+        'num_factors': num_factors,    ## we used it as latent Dimensions
+        'num_neg': num_neg,         ## per User no of negative items
+        'out': True,          ## Save best model or not
+        'out_path' : Path(os.getcwd()) / "GMF_Models",
+        'topK' : topK            ## Used in Evaluation.
+    }
+
+
+
+## GMF
+
+2025-09-16 16:09:00,100 - GMF_traning_16_09_2025_16_09 - INFO -  Starting GMF traning... 
+2025-09-16 16:09:03,655 - GMF_traning_16_09_2025_16_09 - INFO -  Total number of users are : 6040
+2025-09-16 16:09:03,655 - GMF_traning_16_09_2025_16_09 - INFO -  Total number of items are : 3706
+2025-09-16 16:09:03,656 - GMF_traning_16_09_2025_16_09 - INFO -  GMF Model loaded
+2025-09-16 16:09:03,656 - GMF_traning_16_09_2025_16_09 - INFO -  GMF Model passed for training...
+2025-09-16 16:09:04,338 - GMF_traning_16_09_2025_16_09 - INFO -  Users shape: torch.Size([128])
+2025-09-16 16:09:04,338 - GMF_traning_16_09_2025_16_09 - INFO -  Items shape: torch.Size([128])
+2025-09-16 16:09:04,338 - GMF_traning_16_09_2025_16_09 - INFO -  In Latent Dimensions the shape of user latent: torch.Size([128, 10])
+2025-09-16 16:09:04,338 - GMF_traning_16_09_2025_16_09 - INFO -  In Latent Dimensions the shape of item latent: torch.Size([128, 10])
+2025-09-16 16:09:04,338 - GMF_traning_16_09_2025_16_09 - INFO -  Point wise multiplication between user and item: torch.Size([128, 10])
+2025-09-16 16:09:04,338 - GMF_traning_16_09_2025_16_09 - INFO -  Output of hidden layer : torch.Size([128, 1])
+2025-09-16 16:09:04,338 - GMF_traning_16_09_2025_16_09 - INFO -  Output of hidden layer after applying sigmoid : torch.Size([128, 1])
+
+
+## MLP
+
+2025-09-16 19:19:09,042 - MLP_traning_16_09_2025_19_19 - INFO -  Starting MLP traning... 
+2025-09-16 19:19:12,381 - MLP_traning_16_09_2025_19_19 - INFO -  Total number of users are : 6040
+2025-09-16 19:19:12,381 - MLP_traning_16_09_2025_19_19 - INFO -  Total number of items are : 3706
+2025-09-16 19:19:12,381 - MLP_traning_16_09_2025_19_19 - INFO -  Number of Layers: 3
+2025-09-16 19:19:12,382 - MLP_traning_16_09_2025_19_19 - INFO -  MLP Model loaded.
+2025-09-16 19:19:12,382 - MLP_traning_16_09_2025_19_19 - INFO -  MLP Model passed for training...
+2025-09-16 19:19:13,055 - MLP_traning_16_09_2025_19_19 - INFO -  Users shape: torch.Size([256])
+2025-09-16 19:19:13,055 - MLP_traning_16_09_2025_19_19 - INFO -  Items shape: torch.Size([256])
+2025-09-16 19:19:13,055 - MLP_traning_16_09_2025_19_19 - INFO -  In Latent Dimensions the shape of user latent: torch.Size([256, 16])
+2025-09-16 19:19:13,055 - MLP_traning_16_09_2025_19_19 - INFO -  In Latent Dimensions the shape of item latent: torch.Size([256, 16])
+2025-09-16 19:19:13,055 - MLP_traning_16_09_2025_19_19 - INFO -  In Latent Dimensions the shape of combined(User and Items) latent: torch.Size([256, 32])
+2025-09-16 19:19:13,056 - MLP_traning_16_09_2025_19_19 - INFO -  Shape of MLP Output: torch.Size([256, 8])
+2025-09-16 19:19:13,056 - MLP_traning_16_09_2025_19_19 - INFO -  Shape of logits: torch.Size([256, 1])
+2025-09-16 19:19:13,056 - MLP_traning_16_09_2025_19_19 - INFO -  The Final shape of logits output: torch.Size([256, 1])
+
+
+
+## NeuMF
+
+2025-09-17 10:38:35,150 - NeuMF_traning_17_09_2025_10_38 - INFO -  Starting NeuMF traning... 
+2025-09-17 10:38:38,753 - NeuMF_traning_17_09_2025_10_38 - INFO -  Total number of users are : 6040
+2025-09-17 10:38:38,753 - NeuMF_traning_17_09_2025_10_38 - INFO -  Total number of items are : 3706
+2025-09-17 10:38:38,753 - NeuMF_traning_17_09_2025_10_38 - INFO -  Number of Layers: 3
+2025-09-17 10:38:38,760 - NeuMF_traning_17_09_2025_10_38 - INFO -  NeuMF Model loaded.
+2025-09-17 10:38:38,760 - NeuMF_traning_17_09_2025_10_38 - INFO -  NeuMF Model passed for training...
+2025-09-17 10:38:39,698 - NeuMF_traning_17_09_2025_10_38 - INFO -  Users shape: torch.Size([256])
+2025-09-17 10:38:39,698 - NeuMF_traning_17_09_2025_10_38 - INFO -  Items shape: torch.Size([256])
+2025-09-17 10:38:39,699 - NeuMF_traning_17_09_2025_10_38 - INFO -  Shape of User embeddings for MF: torch.Size([256, 10]), for MLP: torch.Size([256, 16])
+2025-09-17 10:38:39,699 - NeuMF_traning_17_09_2025_10_38 - INFO -  Shape of Item embeddings for MF: torch.Size([256, 10]), for MLP: torch.Size([256, 16])
+2025-09-17 10:38:39,699 - NeuMF_traning_17_09_2025_10_38 - INFO -  Shape of User-Item pointwise multiplication for MF: torch.Size([256, 10]).
+2025-09-17 10:38:39,699 - NeuMF_traning_17_09_2025_10_38 - INFO -  Embeddings for MLP : torch.Size([256, 32]).
+2025-09-17 10:38:39,702 - NeuMF_traning_17_09_2025_10_38 - INFO -  MLP ouput shape: torch.Size([256, 8]).
+2025-09-17 10:38:39,702 - NeuMF_traning_17_09_2025_10_38 - INFO -  Concate MLP and MF: torch.Size([256, 18]).
+2025-09-17 10:38:39,703 - NeuMF_traning_17_09_2025_10_38 - INFO -  After projecting the final shape of logits: torch.Size([256, 1]).
+2025-09-17 10:38:39,704 - NeuMF_traning_17_09_2025_10_38 - INFO -  After applying sigmoid on logits: torch.Size([256, 1]).
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  Users shape: torch.Size([256])
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  Items shape: torch.Size([256])
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  Shape of User embeddings for MF: torch.Size([256, 10]), for MLP: torch.Size([256, 16])
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  Shape of Item embeddings for MF: torch.Size([256, 10]), for MLP: torch.Size([256, 10])
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  Shape of User-Item pointwise multiplication for MF: torch.Size([256, 10]).
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  Embeddings for MLP : torch.Size([256, 32]).
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  MLP ouput shape: torch.Size([256, 8]).
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  Concate MLP and MF: torch.Size([256, 18]).
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  After projecting the final shape of logits: torch.Size([256, 1]).
+2025-09-17 10:38:39,717 - NeuMF_traning_17_09_2025_10_38 - INFO -  After applying sigmoid on logits: torch.Size([256, 1]).

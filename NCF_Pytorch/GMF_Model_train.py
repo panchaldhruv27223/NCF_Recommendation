@@ -9,7 +9,7 @@ from NCF_evaluation import NCFEvaluator
 from logger import setup_logger
 
 
-def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10 ):
+def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, shuffle = False, output_folder_path=""):
     configurations = {
         "train_data" : Path(os.getcwd()) / "NCF_Pytorch" / "train_data.csv",
         "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
@@ -23,8 +23,9 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
         'num_factors': num_factors,    ## we used it as latent Dimensions
         'num_neg': num_neg,         ## per User no of negative items
         'out': True,          ## Save best model or not
-        'out_path' : Path(os.getcwd()) / "GMF_Models",
-        'topK' : topK            ## Used in Evaluation.
+        'out_path' : Path(os.getcwd()) / f"GMF_Models/{output_folder_path}/",
+        'topK' : topK,            ## Used in Evaluation.
+        'shuffle' : shuffle
     }
 
 
@@ -56,16 +57,15 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
     train_logger.info(f"GMF Model loaded")
 
 
-    train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=False)
+    train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
 
-
-    test_data_loader = DataLoader(test_data_object, configurations["batch_size"], shuffle=False)
+    test_data_loader = DataLoader(test_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
 
     ## Finally Train GMF Model
     train_logger.info(f"GMF Model passed for training...")
     eval_logger.info("GMF Model Passed for Evaluation...")
 
-    train_GMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_loager = train_logger, test_loager = eval_logger, device="cpu")
+    train_GMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
 
 
 
@@ -77,4 +77,9 @@ if __name__ == "__main__":
     
     for i in [10, 20, 30]:
         for j in [128, 256, 512]:
-            main(learner = 'adam', epochs = i, batch_size = j, num_factors = 10, num_neg = 2, topK= 10 )
+            main(learner = 'adam', epochs = i, batch_size = j, num_factors = 10, num_neg = 2, topK= 10, shuffle=True, output_folder_path="With_shuffle")
+            
+
+    for i in [10, 20, 30]:
+        for j in [128, 256, 512]:
+            main(learner = 'adam', epochs = i, batch_size = j, num_factors = 10, num_neg = 2, topK= 10, shuffle=False, output_folder_path="Without_shuffle")

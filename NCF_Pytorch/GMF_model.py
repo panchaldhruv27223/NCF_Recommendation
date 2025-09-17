@@ -47,7 +47,8 @@ class GMF(nn.Module):
         return logits 
     
 
-def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvaluation, train_loager=None, test_loager =None, device="cpu"):
+        train_logger.info(f"Time taken to complete epoch no {epoch}: {t2-t1}")
+def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvaluation, train_logger=None, test_logger =None, device="cpu"):
     
     if config["learner"].lower() == "adam":
         optimizer = optim.Adam(model.parameters(), lr=config["lr"])
@@ -61,7 +62,7 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
     criterion = nn.BCELoss()
     
     evaluator = NCFEvaluation(model, test_negative_dataset, top_k = config["topK"])
-    test_loager.info(f"GMF Model Evaluation is defined with topk : {config["topK"]}")
+    test_logger.info(f"GMF Model Evaluation is defined with topk : {config["topK"]}")
     
     best_hr, best_ndcg, best_epoch = 0, 0, -1
     
@@ -99,6 +100,9 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
             total_loss += loss.item()
             
         t2 = time.time()
+        train_logger.info(f"Time taken to complete epoch no {epoch}: {t2-t1}")
+                
+                
         hits, ndcgs = evaluator.evaluate()
         hits = sum(hits)/len(hits)
         ndcgs = sum(ndcgs)/len(ndcgs)
@@ -108,7 +112,7 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
         # print(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
             #   f"Hit Rate: {hits:.4f}, NDCG: {ndcgs:.4f}, loss: {avg_loss:.4f}")
         
-        test_loager.info(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
+        test_logger.info(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
               f"Hit Rate: {hits:.4f}, NDCG: {ndcgs:.4f}, loss: {avg_loss:.4f}")
         
         
@@ -116,19 +120,22 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
             
             best_hr, best_ndcg, best_epoch = hits, ndcgs, epoch
             
-            test_loager.info(f"till now best hr: {best_hr}, best ndcgs: {best_ndcg} and at epoch {best_epoch}")
+            test_logger.info(f"till now best hr: {best_hr}, best ndcgs: {best_ndcg} and at epoch {best_epoch}")
             
             if config["out"]:
                 
                 os.makedirs(config['out_path'], exist_ok=True)
                 
-                torch.save(model.state_dict(),
+                torch.save(model,
                            f"{config['out_path']}/{config["dataset"]}_GMF_Batch_{config["batch_size"]}_epoch_{config["epochs"]}_{config["num_factors"]}.pth")
+
+                torch.save(model.state_dict(),
+                           f"{config['out_path']}/model_dict_{config["dataset"]}_GMF_Batch_{config["batch_size"]}_epoch_{config["epochs"]}_{config["num_factors"]}.pth")
             # print(f"End. Best Iteration {epoch}: HR: {best_hr:.4f}, NDCG:{best_ndcg:.4f}")
     
 
-    test_loager.info(f"The Best GMF Model is Saved from epoch {best_epoch}")
-    test_loager.info("The Best GMF Model is Saved at: \n"+
+    test_logger.info(f"The Best GMF Model is Saved from epoch {best_epoch}")
+    test_logger.info("The Best GMF Model is Saved at: \n"+
                      f"{config['out_path']}/{config["dataset"]}_GMF_Batch_{config["batch_size"]}_epoch_{config["epochs"]}_{config["num_factors"]}.pth")
     
 

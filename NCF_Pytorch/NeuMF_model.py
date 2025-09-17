@@ -64,8 +64,8 @@ class NeuMF(nn.Module):
             probs: Tensor of shape (batch,), probabilities after sigmoid
         """
         
-        self.train_logger.info(f"Users shape: {user.shape}")
-        self.train_logger.info(f"Items shape: {item.shape}")
+        # self.train_logger.info(f"Users shape: {user.shape}")
+        # self.train_logger.info(f"Items shape: {item.shape}")
                 
         ## GMF Branch 
         mf_u = self.user_embeddings_mf(user)
@@ -76,32 +76,32 @@ class NeuMF(nn.Module):
         mlp_u = self.user_embeddings_mlp(user)
         mlp_i = self.item_embeddings_mlp(item)
         
-        self.train_logger.info(f"Shape of User embeddings for MF: {mf_u.shape}, for MLP: {mlp_u.shape}")
-        self.train_logger.info(f"Shape of Item embeddings for MF: {mf_i.shape}, for MLP: {mf_i.shape}")
-        self.train_logger.info(f"Shape of User-Item pointwise multiplication for MF: {mf_point_wise_multiplication.shape}.")
+        # self.train_logger.info(f"Shape of User embeddings for MF: {mf_u.shape}, for MLP: {mlp_u.shape}")
+        # self.train_logger.info(f"Shape of Item embeddings for MF: {mf_i.shape}, for MLP: {mlp_i.shape}")
+        # self.train_logger.info(f"Shape of User-Item pointwise multiplication for MF: {mf_point_wise_multiplication.shape}.")
         
                 
         mlp_input = torch.concat([mlp_u, mlp_i], dim=-1)
-        self.train_logger.info(f"Embeddings for MLP : {mlp_input.shape}.")
+        # self.train_logger.info(f"Embeddings for MLP : {mlp_input.shape}.")
         
         mlp_output = self.mlp(mlp_input)
-        self.train_logger.info(f"MLP ouput shape: {mlp_output.shape}.")
+        # self.train_logger.info(f"MLP ouput shape: {mlp_output.shape}.")
         
         ## Now concat both MF and MLP output
         merged_input = torch.concat([mf_point_wise_multiplication, mlp_output], dim=-1)
-        self.train_logger.info(f"Concate MLP and MF: {merged_input.shape}.")
+        # self.train_logger.info(f"Concate MLP and MF: {merged_input.shape}.")
         
         logits = self.predict_layer(merged_input)
-        self.train_logger.info(f"After projecting the final shape of logits: {logits.shape}.")
+        # self.train_logger.info(f"After projecting the final shape of logits: {logits.shape}.")
         
         out_prob = self.sigmoid(logits)
-        self.train_logger.info(f"After applying sigmoid on logits: {logits.shape}.")
+        # self.train_logger.info(f"After applying sigmoid on logits: {logits.shape}.")
         
         out_prob = out_prob.squeeze()
         
         return out_prob
 
-def train_NeuMF_model(model, train_loader, test_negative_dataset, config, NCFEvaluation, train_logger = None, test_loager = None, device="cpu"):
+def train_NeuMF_model(model, train_loader, test_negative_dataset, config, NCFEvaluation, train_logger = None, test_logger = None, device="cpu"):
     
     if config["learner"].lower() == "adam":
         optimizer = optim.Adam(model.parameters(), lr=config["lr"])
@@ -115,7 +115,7 @@ def train_NeuMF_model(model, train_loader, test_negative_dataset, config, NCFEva
     criterion = nn.BCELoss()
     
     evaluator = NCFEvaluation(model, test_negative_dataset, top_k = config["topK"])
-    test_loager.info(f"NeuMF Model Evaluation is defined with topk : {config["topK"]}")
+    test_logger.info(f"NeuMF Model Evaluation is defined with topk : {config["topK"]}")
     
     best_hr, best_ndcg, best_epoch = 0, 0, -1
     for epoch in range(config["epochs"]):
@@ -152,25 +152,28 @@ def train_NeuMF_model(model, train_loader, test_negative_dataset, config, NCFEva
         # print(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
         #       f"Hit Rate: {hits:.4f}, NDCG: {ndcgs:.4f}, loss: {avg_loss:.4f}")
         
-        test_loager.info(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
+        test_logger.info(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
               f"Hit Rate: {hits:.4f}, NDCG: {ndcgs:.4f}, loss: {avg_loss:.4f}")
         
         if hits > best_hr:
             best_hr, best_ndcg, best_epoch = hits, ndcgs, epoch
             
-            test_loager.info(f"till now best hr: {best_hr}, best ndcgs: {best_ndcg} and at epoch {best_epoch}")
+            test_logger.info(f"till now best hr: {best_hr}, best ndcgs: {best_ndcg} and at epoch {best_epoch}")
 
             if config["out"]:
                 
                 os.makedirs(config['out_path'], exist_ok=True)
 
-                torch.save(model.state_dict(),
+                torch.save(model,
                            f"{config['out_path']}/{config["dataset"]}_NeuMF_Batch_{config["batch_size"]}_epoch_{config["epochs"]}_{config["num_factors"]}.pth")
                 
+                torch.save(model.state_dict(),
+                           f"{config['out_path']}/model_dict_{config["dataset"]}_NeuMF_Batch_{config["batch_size"]}_epoch_{config["epochs"]}_{config["num_factors"]}.pth")
+              
             # print(f"End. Best Iteration {epoch}: HR: {best_hr:.4f}, NDCG:{best_ndcg:.4f}")
             
-    test_loager.info(f"The Best NeuMF Model is Saved from epoch {best_epoch}")
-    test_loager.info("The Best NeuMF Model is Saved at: \n"+
+    test_logger.info(f"The Best NeuMF Model is Saved from epoch {best_epoch}")
+    test_logger.info("The Best NeuMF Model is Saved at: \n"+
                      f"{config['out_path']}/{config["dataset"]}_NeuMF_Batch_{config["batch_size"]}_epoch_{config["epochs"]}_{config["num_factors"]}.pth")
     
     # print(f"The Best NeuMF Model is Saved from epoch {best_epoch}")1

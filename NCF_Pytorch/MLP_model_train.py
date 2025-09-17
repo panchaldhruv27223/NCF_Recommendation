@@ -8,7 +8,7 @@ from NCF_evaluation import NCFEvaluator
 from logger import setup_logger
 
 
-def main(learner = 'adam', layers= [32, 16, 8],epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10 ):
+def main(learner = 'adam', layers= [32, 16, 8],epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, shuffle=False, output_folder_path=""):
 
     configurations = {
         "train_data" : Path(os.getcwd()) / "NCF_Pytorch" / "train_data.csv",
@@ -24,8 +24,9 @@ def main(learner = 'adam', layers= [32, 16, 8],epochs = 3, batch_size= 256, num_
         'num_factors': num_factors,    ## we used it as latent Dimensions
         'num_neg': num_neg,         ## per User no of negative items
         'out': True,          ## Save best model or not
-        'out_path' : Path(os.getcwd()) / "MLP_Models",
-        'topK': topK            ## Used in Evaluation.
+        'out_path' : Path(os.getcwd()) / f"MLP_Models/{output_folder_path}/",
+        'topK': topK,            ## Used in Evaluation.
+        'shuffle' : shuffle
     }
 
     # print('Configurations: ')
@@ -61,8 +62,8 @@ def main(learner = 'adam', layers= [32, 16, 8],epochs = 3, batch_size= 256, num_
 
     # print(f"Model: {Model}")
 
-    train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=False)
-    test_data_loader = DataLoader(test_data_object, configurations["batch_size"], shuffle=False)
+    train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
+    test_data_loader = DataLoader(test_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
 
     # print("Data has been loaded.")
 
@@ -70,15 +71,22 @@ def main(learner = 'adam', layers= [32, 16, 8],epochs = 3, batch_size= 256, num_
     train_logger.info(f"MLP Model passed for training...")
     eval_logger.info("MLP Model Passed for Evaluation...")
 
-    NCF_mlp_train(Model, train_loader=train_data_loader, test_negative_data_object=test_data_object, NCF_evaluation=NCFEvaluator, config=configurations, train_logger = train_logger, test_loager = eval_logger, device="cpu")
+    NCF_mlp_train(Model, train_loader=train_data_loader, test_negative_data_object=test_data_object, NCF_evaluation=NCFEvaluator, config=configurations, train_logger = train_logger, test_logger = eval_logger, device="cpu")
 
 if __name__ == "__main__":
     print("Calling from MLP Training.")
     
     # main(learner = 'adam', layers= [32, 16, 8],epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10 )
     
-    # for i in [10, 20, 30]:
+    for i in [10, 20, 30]:
         
-    #     for j in [128, 256, 512]:
+        for j in [128, 256, 512]:
             
-    #         main(learner = 'adam', layers= [32, 16, 8], epochs = i, batch_size= j, num_factors = 10, num_neg = 2, topK= 10 )
+            main(learner = 'adam', layers= [32, 16, 8], epochs = i, batch_size= j, num_factors = 10, num_neg = 2, topK= 10, shuffle=True, output_folder_path="With_shuffle")
+        
+    for i in [10, 20, 30]:
+        
+        for j in [128, 256, 512]:
+            
+            main(learner = 'adam', layers= [32, 16, 8], epochs = i, batch_size= j, num_factors = 10, num_neg = 2, topK= 10, shuffle=False, output_folder_path="Without_shuffle")
+            
