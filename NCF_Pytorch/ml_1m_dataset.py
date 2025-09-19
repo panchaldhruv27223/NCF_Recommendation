@@ -17,7 +17,7 @@ class NCFTrainDataset(Dataset):
     def __init__(self, train_csv, num_negatives=4, num_users=0 ,num_items=0):
         
         self.train_df = pd.read_csv(train_csv)
-        self.user_item_set = set(zip(self.train_df["UserID"],self.train_df["ItemID"]))
+        self.user_item_set = list(zip(self.train_df["UserID"],self.train_df["ItemID"]))
         
         self.num_items = max(num_items, max(self.train_df["ItemID"])+1)
         

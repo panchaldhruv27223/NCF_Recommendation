@@ -2,7 +2,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import os, sys, time
-from logger import setup_logger
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"../")))
+# print(os.path.abspath(os.path.join(os.path.dirname(__file__),"../")))
+# from NCF_Pytorch.logger import setup_logger
 
     
 class GMF(nn.Module):
@@ -77,6 +79,12 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
             users = users.to(device)
             items = items.to(device)
             labels = labels.to(device)
+            
+            unique_users, counts = torch.unique(users, return_counts=True)
+            train_logger.info(f"Number Of Uniques Users In The Batch, {len(unique_users)}")
+            
+            for u, c in zip(unique_users.cpu().tolist(), counts.cpu().tolist()):
+                train_logger.info(f"User {u} appears {c} times in this batch")
             
             optimizer.zero_grad()
             

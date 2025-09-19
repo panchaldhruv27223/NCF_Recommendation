@@ -78,15 +78,17 @@ if __name__ == "__main__":
     
     # main(learner = 'adam', layers= [32, 16, 8],epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10 )
     
-    for i in [10, 20, 30]:
+    # for i in [10, 20, 30]:
         
-        for j in [128, 256, 512]:
+    #     for j in [128, 256, 512]:
             
-            main(learner = 'adam', layers= [32, 16, 8], epochs = i, batch_size= j, num_factors = 10, num_neg = 2, topK= 10, shuffle=True, output_folder_path="With_shuffle")
+    #         main(learner = 'adam', layers= [32, 16, 8], epochs = i, batch_size= j, num_factors = 10, num_neg = 2, topK= 10, shuffle=True, output_folder_path="With_shuffle")
         
-    for i in [10, 20, 30]:
+    # for i in [10, 20, 30]:
         
-        for j in [128, 256, 512]:
+    #     for j in [128, 256, 512]:
             
-            main(learner = 'adam', layers= [32, 16, 8], epochs = i, batch_size= j, num_factors = 10, num_neg = 2, topK= 10, shuffle=False, output_folder_path="Without_shuffle")
+    #         main(learner = 'adam', layers= [32, 16, 8], epochs = i, batch_size= j, num_factors = 10, num_neg = 2, topK= 10, shuffle=False, output_folder_path="Without_shuffle")
             
+    for i in range(3,128):
+        main(learner = 'adam', layers= [32, 16, 8], epochs = 10, batch_size= 128, num_factors = 10, num_neg = 2, topK= 10, shuffle=False, output_folder_path=f"Without_shuffle_num_neg_{i}")
