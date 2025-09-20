@@ -97,12 +97,13 @@ class NCFTrainDataset(Dataset):
     def __getitem__(self, idx):
         return torch.tensor(self.users[idx], dtype=torch.long), torch.tensor(self.items[idx], dtype=torch.long), torch.tensor(self.labels[idx], dtype=torch.long)
     
-    def get_user_centric_dataloader(self, shuffle_users=True, shuffle_within_user=True, drop_last=False, num_workers=0, pin_memory=False):
+    def get_user_centric_dataloader(self, shuffle_users=True, batch_size= 256,shuffle_within_user=True, drop_last=False, num_workers=0, pin_memory=False):
         
         user_to_indices = build_user_index_map(self.user_id)
         
         batch_sampler = UserBatchSampler(
             user_to_indices=user_to_indices,
+            batch_size=batch_size,
             drop_last=drop_last,
             shuffle_users=shuffle_users,
             shuffle_within_user= shuffle_within_user

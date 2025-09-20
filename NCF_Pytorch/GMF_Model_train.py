@@ -79,5 +79,5 @@ if __name__ == "__main__":
     #     for j in [128, 256, 512]:
     #         main(learner = 'adam', epochs = i, batch_size = j, num_factors = 10, num_neg = 2, topK= 10, shuffle=False, output_folder_path="Without_shuffle")
     
-    for i in range(3,128):
-        main(learner = 'adam', epochs = 10, batch_size = 128, num_factors = 10, num_neg = i, topK= 10, shuffle=False, output_folder_path=f"Without_shuffle_num_neg_{i}")
+    # for i in range(3,128):
+    #     main(learner = 'adam', epochs = 10, batch_size = 128, num_factors = 10, num_neg = i, topK= 10, shuffle=False, output_folder_path=f"Without_shuffle_num_neg_{i}")

@@ -40,10 +40,10 @@ class GMF(nn.Module):
         out = self.output(elementwise_product )
         # self.train_loager.info(f"Output of hidden layer : {out.shape}")
 
-        logits = self.sigmoid(out)
+        logits = self.sigmoid(out).view(-1)
         # self.train_loager.info(f"Output of hidden layer after applying sigmoid : {logits.shape}")
 
-        logits = logits.squeeze()
+        # logits = logits.squeeze()
         # print(logits)
 
         return logits 
@@ -83,8 +83,8 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
             unique_users, counts = torch.unique(users, return_counts=True)
             train_logger.info(f"Number Of Uniques Users In The Batch, {len(unique_users)}")
             
-            for u, c in zip(unique_users.cpu().tolist(), counts.cpu().tolist()):
-                train_logger.info(f"User {u} appears {c} times in this batch")
+            # for u, c in zip(unique_users.cpu().tolist(), counts.cpu().tolist()):
+            #     train_logger.info(f"User {u} appears {c} times in this batch")
             
             optimizer.zero_grad()
             

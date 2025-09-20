@@ -66,29 +66,36 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
     train_logger.info(f"GMF Model loaded")
 
     # train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
-    train_data_loader = train_data_object.get_user_centric_dataloader(shuffle_users= configurations['shuffle_users'], shuffle_within_user=configurations['shuffle_within_user'])
+    train_data_loader = train_data_object.get_user_centric_dataloader(shuffle_users= configurations['shuffle_users'], batch_size= configurations['batch_size'], shuffle_within_user=configurations['shuffle_within_user'], num_workers=os.cpu_count() //2, pin_memory=True)
     
-    for batch_idx, batch in enumerate(train_data_loader):
-        print("Batch index:", batch_idx)
-        users, items, labels = batch 
+    
+    # testing the batch.
+    
+    # for batch_idx, batch in enumerate(train_data_loader):
+    #     print("Batch index:", batch_idx)
+    #     users, items, labels = batch 
         
-        print(f"Users: {users.tolist()}")
-        print(f"items: {items.tolist()}")
-        print(f"labels: {labels.tolist()}")
+    #     print(f"Users: {len(users.tolist())}")
+    #     # print(users)
+    #     # print(f"items: {items.tolist()}")
+    #     # print(f"labels: {labels.values_count()}")
+    #     uniques_ele, counts = torch.unique(labels, return_counts=True)
+    #     print(f"uniques elements are : {uniques_ele}")
+    #     print(f"count of that elements : {counts}")
         
-        if batch_idx == 5:
-            break
+    #     if batch_idx == 5:
+    #         break
 
     ## Finally Train GMF Model
-    # train_logger.info(f"GMF Model passed for training...")
-    # eval_logger.info("GMF Model Passed for Evaluation...")
+    train_logger.info(f"GMF Model passed for training...")
+    eval_logger.info("GMF Model Passed for Evaluation...")
 
-    # train_GMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
+    train_GMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
 
 if __name__ == "__main__":
     print("Calling from GMF User Centric Model Training.")
     
-    main(learner = 'adam', epochs = 2, batch_size = 128, num_factors = 10, num_neg = 1, topK= 10, shuffle=False, output_folder_path=f"DEMO_testing")
+    main(learner = 'adam', epochs = 10, batch_size = 256, num_factors = 10, num_neg = 10, topK= 10, shuffle=False, shuffle_users=True, shuffle_within_user=True, output_folder_path=f"DEMO_testing")
     
     # train_logger, train_logger_path = setup_logger("GMF", "traning", config=configurations)
     # train_logger.info("Starting GMF traning... ")
