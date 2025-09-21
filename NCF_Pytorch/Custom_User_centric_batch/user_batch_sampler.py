@@ -34,14 +34,19 @@ class UserBatchSampler(Sampler):
             if self.shuffle_within_user:
                 random.shuffle(indices)
             
-            for  i in range(0, len(indices), self.batch_size):
-                batch = indices[i:i+self.batch_size]
+            if self.batch_size == -1:
+                yield indices
                 
-                if self.drop_last and len(batch) < self.batch_size:
-                    continue
+            else:
+                ## This is For creating multiple bacth from the single batch for users who's interaction are more than the batch size
+                for  i in range(0, len(indices), self.batch_size):
+                    batch = indices[i:i+self.batch_size]
+                    
+                    if self.drop_last and len(batch) < self.batch_size:
+                        continue
                 
-                yield batch
-            
+                    yield batch
+                
             
     def __len__(self):
         return len(self.users)

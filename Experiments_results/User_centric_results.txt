@@ -1,0 +1,65 @@
+1. Upper limit on batch size and num_neg is also fix: 
+        
+        Runned on: run_20_09_2025_15_40  (20/09/2025 15:40)
+
+        config:
+
+        {
+            "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
+            "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
+            "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
+            "dataset": "ml-1m",
+            "regs": [
+                0,
+                0
+            ],
+            "lr": 0.001,
+            "batch_size": 256,
+            "epochs": 10,
+            "learner": "adam",
+            "num_factors": 10,
+            "num_neg": 10,
+            "out": true,
+            "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/GMF_Models/DEMO_testing",
+            "topK": 10,
+            "shuffle": false,
+            "shuffle_users": true,
+            "shuffle_within_user": true
+        }
+
+
+        best hr: 0.45728476821192054, best ndcgs: 0.2506809112010951 and at epoch 5
+        
+        Note: We run the model for 10 epoch but we got best model at 5th epoch.
+
+
+
+2. Upper limit is not set on batch size and num_neg is equal to the number of positive interaction that user have: 
+
+        Runned on: run_21_09_2025_11_49  (21/09/2025 11:49)
+
+
+        Config:
+
+        {
+            "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
+            "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
+            "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
+            "dataset": "ml-1m",
+            "regs": [
+                0,
+                0
+            ],
+            "lr": 0.001,
+            "batch_size": -1,
+            "epochs": 10,
+            "learner": "adam",
+            "num_factors": 10,
+            "num_neg": -1,
+            "out": true,
+            "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/GMF_Models/GMF_User_centric_pos_neg_eq",
+            "topK": 10,
+            "shuffle": false,
+            "shuffle_users": true,
+            "shuffle_within_user": true
+        }

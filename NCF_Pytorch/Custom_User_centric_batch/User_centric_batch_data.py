@@ -72,22 +72,38 @@ class NCFTrainDataset(Dataset):
         
         for u, pos in user_pos_items.items():
             
+            counter = 0
+            
             for i in pos:
+                counter += 1
                 user_input.append(u)
                 item_input.append(i)
                 labels.append(1)
+            
+            if self.num_negatives != -1:
                 
-            for _ in range(self.num_negatives):
-                
-                j = np.random.randint(self.num_items)
-                
-                while (u,j) in self.user_item_set:
+                for _ in range(self.num_negatives):
+                    
                     j = np.random.randint(self.num_items)
-                
-                user_input.append(u)
-                item_input.append(j)
-                labels.append(0)
-                
+                    
+                    while (u,j) in self.user_item_set:
+                        j = np.random.randint(self.num_items)
+                    
+                    user_input.append(u)
+                    item_input.append(j)
+                    labels.append(0)
+            else:
+                num_neg = counter
+                for _ in range(num_neg):
+                    
+                    j = np.random.randint(self.num_items)
+                    
+                    while (u,j) in self.user_item_set:
+                        j = np.random.randint(self.num_items)
+                    
+                    user_input.append(u)
+                    item_input.append(j)
+                    labels.append(0)
             
         return user_input, item_input, labels
         

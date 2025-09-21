@@ -16,7 +16,7 @@ from NCF_Pytorch.NCF_evaluation import NCFEvaluator
 from NCF_Pytorch.logger import setup_logger
 print(os.getcwd())
 
-def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, shuffle = False, shuffle_users=True, shuffle_within_user=True, output_folder_path=""):
+def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, shuffle = False, shuffle_users=True, shuffle_within_user=True, output_folder_path="", output_folder_path_log = ""):
     configurations = {
         "train_data" : Path(os.getcwd()) / "NCF_Pytorch" / "train_data.csv",
         "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
@@ -41,11 +41,11 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
     # for key, value in configurations.items():
     #   print(f'{key} : {value}')
 
-    train_logger, train_logger_path = setup_logger("GMF_User_Centric", "traning", config=configurations)
+    train_logger, train_logger_path = setup_logger(output_folder_path_log, "traning", config=configurations)
 
     train_logger.info("Starting GMF_User_Centric traning... ")
 
-    eval_logger, eval_logger_path = setup_logger("GMF_User_Centric", "evaluation", config=configurations)
+    eval_logger, eval_logger_path = setup_logger(output_folder_path_log, "evaluation", config=configurations)
 
     eval_logger.info("Starting GMF_User_Centric Evaluation")
 
@@ -75,7 +75,10 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
     #     print("Batch index:", batch_idx)
     #     users, items, labels = batch 
         
-    #     print(f"Users: {len(users.tolist())}")
+    #     # print(f"Users: {len(users.tolist())}")
+    #     uniques_users, user_counts = torch.unique(users, return_counts=True)
+    #     print(f"For user {uniques_users} and occured {user_counts}")
+        
     #     # print(users)
     #     # print(f"items: {items.tolist()}")
     #     # print(f"labels: {labels.values_count()}")
@@ -86,7 +89,7 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
     #     if batch_idx == 5:
     #         break
 
-    ## Finally Train GMF Model
+    # Finally Train GMF Model
     train_logger.info(f"GMF Model passed for training...")
     eval_logger.info("GMF Model Passed for Evaluation...")
 
@@ -95,7 +98,7 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
 if __name__ == "__main__":
     print("Calling from GMF User Centric Model Training.")
     
-    main(learner = 'adam', epochs = 10, batch_size = 256, num_factors = 10, num_neg = 10, topK= 10, shuffle=False, shuffle_users=True, shuffle_within_user=True, output_folder_path=f"DEMO_testing")
+    main(learner = 'adam', epochs = 10, batch_size = -1, num_factors = 10, num_neg = -1, topK= 10, shuffle=False, shuffle_users=True, shuffle_within_user=True, output_folder_path=f"GMF_User_centric_pos_neg_eq", output_folder_path_log="GMF_User_centric_pos_neg_eq")
     
     # train_logger, train_logger_path = setup_logger("GMF", "traning", config=configurations)
     # train_logger.info("Starting GMF traning... ")
