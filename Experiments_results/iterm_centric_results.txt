@@ -40,39 +40,38 @@ GMF :
 
         2. We have created item centric Batch group by item, And now this time the number of negative and number positve interactions are same in the batch
 
-                Runned on: run_21_09_2025_12_04
+                Runned on: run_24_09_2025_15_15
 
                 Config:
+                    {
+                        "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
+                        "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
+                        "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
+                        "dataset": "ml-1m",
+                        "regs": [
+                            0,
+                            0
+                        ],
+                        "lr": 0.001,
+                        "batch_size": -1,
+                        "epochs": 10,
+                        "learner": "adam",
+                        "num_factors": 10,
+                        "num_neg": -1,
+                        "out": true,
+                        "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/GMF_Models/GMF_Item_centric_pos_neg_eq_per_item",
+                        "topK": 10,
+                        "shuffle": false,
+                        "shuffle_items": true,
+                        "shuffle_within_item": true
+                    }
 
-                {
-                    "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
-                    "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
-                    "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
-                    "dataset": "ml-1m",
-                    "regs": [
-                        0,
-                        0
-                    ],
-                    "lr": 0.001,
-                    "batch_size": -1,
-                    "epochs": 10,
-                    "learner": "adam",
-                    "num_factors": 10,
-                    "num_neg": -1,
-                    "out": true,
-                    "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/GMF_Models/GMF_User_centric_pos_neg_eq",
-                    "topK": 10,
-                    "shuffle": false,
-                    "shuffle_users": true,
-                    "shuffle_within_user": true
-                }
 
+                best hr: 0.23112582781456953, best ndcgs: 0.09976591833331737 and at epoch 5(number start from 0 so it is technically 6).
 
-                best hr: 0.5438741721854304, best ndcgs: 0.3000605823562903 and at epoch 8 (number start from 0 so it is technically 9).
+                Note: We run the model for 10 epoch but we got best model at 6th epoch.
 
-                Note: We run the model for 10 epoch but we got best model at 9th epoch.
-
-                        Avg time taken for each epoch is: 1566.768481874466
+                        Avg time taken for each epoch is: 415.459846997261
 
 
 MLP :
@@ -123,42 +122,41 @@ MLP :
 
 
 
-                Runned on: run_23_09_2025_14_46
+                Runned on: run_24_09_2025_15_17
 
-                {
-                    "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
-                    "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
-                    "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
-                    "dataset": "ml-1m",
-                    "regs": [
-                        0,
-                        0
-                    ],
-                    "lr": 0.001,
-                    "batch_size": -1,
-                    "epochs": 10,
-                    "learner": "adam",
-                    "layers": [
-                        32,
-                        16,
-                        8
-                    ],
-                    "num_factors": 10,
-                    "num_neg": -1,
-                    "out": true,
-                    "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/MLP_Models/MLP_User_centric_pos_neg_eq",
-                    "topK": 10,
-                    "shuffle": false,
-                    "shuffle_users": true,
-                    "shuffle_within_user": true
-                }
+                    {
+                        "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
+                        "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
+                        "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
+                        "dataset": "ml-1m",
+                        "regs": [
+                            0,
+                            0
+                        ],
+                        "lr": 0.001,
+                        "batch_size": -1,
+                        "epochs": 10,
+                        "learner": "adam",
+                        "layers": [
+                            32,
+                            16,
+                            8
+                        ],
+                        "num_factors": 10,
+                        "num_neg": -1,
+                        "out": true,
+                        "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/MLP_Models/MLP_Item_centric_pos_neg_eq_per_item",
+                        "topK": 10,
+                        "shuffle": false,
+                        "shuffle_items": true,
+                        "shuffle_within_item": true
+                    }
 
+                best hr: 0.27781456953642386, best ndcgs: 0.1320715386577037 and at epoch 10
 
-                best hr: 1.0, best ndcgs: 1.0 and at epoch 0 
+                Note: We run the model for 10 epoch but we got best model at 10th epoch.
 
-                Note: We run the model for 10 epoch but we got best model at 1th epoch.
-
-                        Avg time taken for each epoch is: 2228.1195212125776
+                        Avg time taken for each epoch is: 531.046502327919
 
 
 
@@ -212,40 +210,40 @@ NeuMF:
         2. We have created item centric Batch group by item, And now this time the number of negative and number positve interactions are same in the batch
 
 
-                Runned on: run_23_09_2025_15_26
+                Runned on: run_24_09_2025_15_17
 
 
-                {
-                    "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
-                    "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
-                    "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
-                    "dataset": "ml-1m",
-                    "regs": [
-                        0,
-                        0
-                    ],
-                    "lr": 0.001,
-                    "batch_size": -1,
-                    "epochs": 10,
-                    "learner": "adam",
-                    "layers": [
-                        32,
-                        16,
-                        8
-                    ],
-                    "num_factors": 10,
-                    "num_neg": -1,
-                    "out": true,
-                    "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_User_centric_pos_neg_eq",
-                    "topK": 10,
-                    "shuffle": false,
-                    "shuffle_users": true,
-                    "shuffle_within_user": true
-                }
+                    {
+                        "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
+                        "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
+                        "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
+                        "dataset": "ml-1m",
+                        "regs": [
+                            0,
+                            0
+                        ],
+                        "lr": 0.001,
+                        "batch_size": -1,
+                        "epochs": 10,
+                        "learner": "adam",
+                        "layers": [
+                            32,
+                            16,
+                            8
+                        ],
+                        "num_factors": 10,
+                        "num_neg": -1,
+                        "out": true,
+                        "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_Item_centric_pos_neg_eq_per_item",
+                        "topK": 10,
+                        "shuffle": false,
+                        "shuffle_items": true,
+                        "shuffle_within_item": true
+                    }
 
-                best hr: 0.5475165562913907, best ndcgs: 0.29829614405317706 and at epoch 7
+                best hr: 0.3554635761589404, best ndcgs: 0.18112488793591647 and at epoch 4
                
-                Note: We run the model for 10 epoch but we got best model at 8th epoch.
+                Note: We run the model for 10 epoch but we got best model at 4th epoch.
 
-                        Avg time taken for each epoch is: 3704.566322159767
+                        Avg time taken for each epoch is: 534.2190759897233
 

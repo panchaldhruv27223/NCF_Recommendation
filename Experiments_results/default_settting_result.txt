@@ -1,0 +1,70 @@
+        
+        
+                        Try different batch size and epoch 
+
+
+GMF: 
+
+    1.  Batch = 128
+        epoch = 10
+        topK = 10
+
+        best hr: 0.608112582781457, best ndcgs: 0.3468684400277608 and The best model saved at epoch 10
+
+    2.  Batch = 256
+        epoch = 10
+        topK = 10
+        
+        best hr: 0.5910596026490066, best ndcgs: 0.33296752251681305 and The best model saved at epoch 5
+
+    3.  Batch = 512
+        epoch = 10
+        topK = 10
+        
+        best hr: 0.5736754966887417, best ndcgs: 0.3143652779603536 and The best model saved at epoch 9
+
+
+
+MLP:
+
+    1.  Batch = 128
+        epoch = 10
+        topK = 10
+
+        best hr: 0.45298013245033114, best ndcgs: 0.2462216854805314 and The best model saved at epoch 2
+
+    2.  Batch = 256
+        epoch = 10
+        topK = 10
+        
+        now best hr: 0.5981788079470198, best ndcgs: 0.3400558087662439 and The best model saved at epoch 10
+
+    3.  Batch = 512
+        epoch = 10
+        topK = 10
+        
+        best hr: 0.5768211920529801, best ndcgs: 0.3268204041700244 and The best model saved at epoch 9
+
+
+
+NeuMF:
+
+
+    1.  Batch = 128
+        epoch = 10
+        topK = 10
+
+        best hr: 0.26506622516556294, best ndcgs: 0.1417079909702103 and The best model saved at epoch 1
+
+    2. Batch = 256
+        epoch = 10
+        topK = 10
+        
+        best hr: 0.31357615894039736, best ndcgs: 0.1646474371031333 and The best model saved at epoch 10
+
+    3.  Batch = 512
+        epoch = 10
+        topK = 10
+        
+        best hr: 0.3705298013245033, best ndcgs: 0.20650610064444586 and The best model saved at epoch 9
+    
