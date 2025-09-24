@@ -92,6 +92,7 @@ def NCF_mlp_train(model, train_loader, test_negative_data_object, NCF_evaluation
     test_logger.info(f"MLP Model Evaluation is defined with topk : {config["topK"]}")
     
     best_hr, best_ndcg, best_epoch = 0, 0, -1
+    best_loss = float("inf")
 
     for epoch in range(config["epochs"]):
         t1 = time.time()
@@ -140,7 +141,8 @@ def NCF_mlp_train(model, train_loader, test_negative_data_object, NCF_evaluation
         test_logger.info(f"Epoch {epoch} [{t2-t1:.1f}s]: \n"
               f"Hit Rate: {hits:.4f}, NDCG: {ndcgs:.4f}, loss: {avg_loss:.4f}")
 
-        if hits > best_hr:
+        if hits > best_hr or avg_loss < best_loss:
+            best_loss = avg_loss
             best_hr, best_ndcg, best_epoch = hits, ndcgs, epoch
             
             test_logger.info(f"till now best hr: {best_hr}, best ndcgs: {best_ndcg} and at epoch {best_epoch}")

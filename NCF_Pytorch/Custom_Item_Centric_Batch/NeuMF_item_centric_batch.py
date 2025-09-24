@@ -1,0 +1,70 @@
+import os, sys, time
+import torch
+from torch.utils.data import DataLoader
+from pathlib import Path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"../../")))
+from NCF_Pytorch.NeuMF_model import NeuMF, train_NeuMF_model
+from NCF_Pytorch.ml_1m_dataset import NCFTestDataset
+from NCF_Pytorch.Custom_Item_Centric_Batch.Item_centric_batch_data import NCFTrainDataset
+from NCF_Pytorch.NCF_evaluation import NCFEvaluator
+from NCF_Pytorch.logger import setup_logger
+
+
+def main(learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, shuffle=False, shuffle_items=True, shuffle_within_item=True, output_folder_path="", output_folder_path_log = ""):
+
+    configurations = {
+        "train_data" : Path(os.getcwd()) / "NCF_Pytorch" / "train_data.csv",
+        "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+        "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+        'dataset': 'ml-1m',   ## name of dataset
+        'regs': [0, 0],       ## Regularigaion L1, L2
+        'lr': 0.001,          ## Learning Rate
+        'batch_size': batch_size,    ## Batch Size
+        'epochs': epochs,          ## Training Epochs
+        'learner': learner,    ## Optimizer
+        'layers': layers,
+        'num_factors': num_factors,    ## we used it as latent Dimensions
+        'num_neg': num_neg,         ## per User no of negative items
+        'out': True,          ## Save best model or not
+        'out_path' : Path(os.getcwd()) / f"NeuMF_Models/{output_folder_path}/",
+        'topK': topK,           ## Used in Evaluation.
+        'shuffle' : shuffle,
+        'shuffle_items' : shuffle_items,
+        'shuffle_within_item':shuffle_within_item
+    }
+    
+    train_logger, train_logger_path = setup_logger(output_folder_path_log, "traning", config=configurations)
+
+    train_logger.info("Starting NeuMF Item Centric traning... ")
+
+    eval_logger, eval_logger_path = setup_logger(output_folder_path_log, "evaluation", config=configurations)
+
+    eval_logger.info("Starting NeuMF Item Centric Evaluation")
+
+    train_data_object = NCFTrainDataset(train_csv=configurations["train_data"], num_negatives=configurations["num_neg"])
+
+    test_data_object = NCFTestDataset(test_csv=configurations["test_data"], test_negative_csv=configurations["test_negative_data"])
+
+    num_users = train_data_object.num_users
+    num_items = train_data_object.num_items
+    
+    train_logger.info(f"Total number of users are : {num_users}")
+    train_logger.info(f"Total number of items are : {num_items}")
+
+    Model = NeuMF(num_users=num_users, num_items=num_items, latent_dim=configurations["num_factors"], layers=configurations["layers"], train_logger = train_logger)
+    
+    train_logger.info("NeuMF Item Centric Model loaded.")
+    eval_logger.info("NeuMF Item Centric Model loaded.")
+
+    train_data_loader = train_data_object.get_item_centric_dataloader(shuffle_items= configurations['shuffle_items'], batch_size= configurations['batch_size'], shuffle_within_item=configurations['shuffle_within_item'], num_workers=os.cpu_count() //2, pin_memory=True)
+
+
+    train_logger.info(f"NeuMF Item Centric Model passed for training...")
+    eval_logger.info("NeuMF Item Centric Model Passed for Evaluation...")
+    
+    train_NeuMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
+
+if __name__ == "__main__":
+    print("Calling from NeuMF Item Centric Training.")
+    
+    main(learner = 'adam', layers= [32, 16, 8], epochs = 10, batch_size= -1, num_factors = 10, num_neg = -1, topK= 10, shuffle=False, shuffle_items=True, shuffle_within_item=True, output_folder_path="NeuMF_Item_centric_pos_neg_eq_per_item", output_folder_path_log = "NeuMF_Item_centric_pos_neg_eq_per_item")

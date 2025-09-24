@@ -80,8 +80,8 @@ def train_GMF_model(model, train_loader, test_negative_dataset, config, NCFEvalu
             items = items.to(device)
             labels = labels.to(device)
             
-            unique_users, counts = torch.unique(users, return_counts=True)
-            train_logger.info(f"Number Of Uniques Users In The Batch, {len(unique_users)}")
+            # unique_users, counts = torch.unique(users, return_counts=True)
+            # train_logger.info(f"Number Of Uniques Users In The Batch, {len(unique_users)}")
             
             # for u, c in zip(unique_users.cpu().tolist(), counts.cpu().tolist()):
             #     train_logger.info(f"User {u} appears {c} times in this batch")

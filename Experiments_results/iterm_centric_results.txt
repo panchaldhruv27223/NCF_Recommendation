@@ -1,8 +1,8 @@
 GMF : 
 
-        1. Upper limit on batch size and num_neg is also fix: 
+        1. We have created item centric Batch group by item, but here the number of negative and number positve interactions are not be the same
                 
-                Runned on: run_20_09_2025_15_40
+                Runned on: run_24_09_2025_11_57
 
                 config:
 
@@ -16,29 +16,29 @@ GMF :
                         0
                     ],
                     "lr": 0.001,
-                    "batch_size": 256,
+                    "batch_size": -1,
                     "epochs": 10,
                     "learner": "adam",
                     "num_factors": 10,
-                    "num_neg": 10,
+                    "num_neg": -1,
                     "out": true,
-                    "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/GMF_Models/DEMO_testing",
+                    "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/GMF_Models/GMF_Item_centric_pos_neg_eq_per_user",
                     "topK": 10,
                     "shuffle": false,
-                    "shuffle_users": true,
-                    "shuffle_within_user": true
+                    "shuffle_items": true,
+                    "shuffle_within_item": true
                 }
 
 
-                best hr: 0.45728476821192054, best ndcgs: 0.2506809112010951 and at epoch 5 (number start from 0 so it is technically 6).
+                best hr: 0.5339403973509934, best ndcgs: 0.2917502014745895 and at epoch 9 (number start from 0 so it is technically 10).
                 
-                Note: We run the model for 10 epoch but we got best model at 6th epoch.
+                Note: We run the model for 10 epoch but we got best model at 10th epoch.
                         
-                        Avg time taken for each epoch is: 2224.4015383005144
+                        Avg time taken for each epoch is: 1073.1774998664855
 
 
 
-        2. Upper limit is not set on batch size and num_neg is equal to the number of positive interaction that user have: 
+        2. We have created item centric Batch group by item, And now this time the number of negative and number positve interactions are same in the batch
 
                 Runned on: run_21_09_2025_12_04
 
@@ -76,7 +76,52 @@ GMF :
 
 
 MLP :
-        2. Upper limit is not set on batch size and num_neg is equal to the number of positive interaction that user have: 
+
+        1. We have created item centric Batch group by item, but here the number of negative and number positve interactions are not be the same
+
+                Runned on: run_24_09_2025_12_00
+
+                config:
+
+                        {
+                            "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
+                            "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
+                            "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
+                            "dataset": "ml-1m",
+                            "regs": [
+                                0,
+                                0
+                            ],
+                            "lr": 0.001,
+                            "batch_size": -1,
+                            "epochs": 10,
+                            "learner": "adam",
+                            "layers": [
+                                32,
+                                16,
+                                8
+                            ],
+                            "num_factors": 10,
+                            "num_neg": -1,
+                            "out": true,
+                            "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/MLP_Models/MLP_Item_centric_pos_neg_eq_per_user",
+                            "topK": 10,
+                            "shuffle": false,
+                            "shuffle_items": true,
+                            "shuffle_within_item": true
+                        }
+
+
+                best hr: 0.7278145695364239, best ndcgs: 0.7278145695364239 and at epoch 1 (number start from 0 so it is technically 2).
+                
+                Note: We run the model for 10 epoch but we got best model at 2th epoch.
+                        
+                        Avg time taken for each epoch is: 1111.761520576477
+
+
+        2. We have created item centric Batch group by item, And now this time the number of negative and number positve interactions are same in the batch
+
+
 
                 Runned on: run_23_09_2025_14_46
 
@@ -118,7 +163,54 @@ MLP :
 
 
 NeuMF:
-        2. Upper limit is not set on batch size and num_neg is equal to the number of positive interaction that user have: 
+
+
+
+        1. We have created item centric Batch group by item, but here the number of negative and number positve interactions are not be the same
+                
+                Runned on: run_24_09_2025_13_40
+
+                    {
+                        "train_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/train_data.csv",
+                        "test_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_data.csv",
+                        "test_negative_data": "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/test_negative_data.csv",
+                        "dataset": "ml-1m",
+                        "regs": [
+                            0,
+                            0
+                        ],
+                        "lr": 0.001,
+                        "batch_size": -1,
+                        "epochs": 10,
+                        "learner": "adam",
+                        "layers": [
+                            32,
+                            16,
+                            8
+                        ],
+                        "num_factors": 10,
+                        "num_neg": -1,
+                        "out": true,
+                        "out_path": "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_Item_centric_pos_neg_eq_per_user",
+                        "topK": 10,
+                        "shuffle": false,
+                        "shuffle_items": true,
+                        "shuffle_within_item": true
+                    }
+
+                
+                best hr: 0.575, best ndcgs: 0.3190073775792413 and at epoch 9
+
+                Note: We run the model for 10 epoch but we got best model at 10th epoch.
+
+                        Avg time taken for each epoch is: 533.4626880407334
+
+
+
+
+
+        2. We have created item centric Batch group by item, And now this time the number of negative and number positve interactions are same in the batch
+
 
                 Runned on: run_23_09_2025_15_26
 

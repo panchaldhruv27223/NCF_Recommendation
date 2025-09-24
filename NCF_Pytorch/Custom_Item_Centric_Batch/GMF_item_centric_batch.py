@@ -2,19 +2,15 @@ import os, sys, time
 import torch
 from torch.utils.data import DataLoader
 from pathlib import Path
-# print(os.path.dirname(__file__))
-# print(os.path.join(os.path.dirname(__file__), "../../"))
-# print(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),"../../")))
 from NCF_Pytorch.GMF_model import GMF, train_GMF_model
-# from NCF_Pytorch.ml_1m_dataset import NCFTrainDataset, NCFTestDataset
 from NCF_Pytorch.ml_1m_dataset import NCFTestDataset
-from User_centric_batch_data import NCFTrainDataset
+from NCF_Pytorch.Custom_Item_Centric_Batch.Item_centric_batch_data import NCFTrainDataset
 from NCF_Pytorch.NCF_evaluation import NCFEvaluator
 from NCF_Pytorch.logger import setup_logger
 # print(os.getcwd())
 
-def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, shuffle = False, shuffle_users=True, shuffle_within_user=True, output_folder_path="", output_folder_path_log = ""):
+def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, shuffle = False, shuffle_items=True, shuffle_within_item=True, output_folder_path="", output_folder_path_log = ""):
     configurations = {
         "train_data" : Path(os.getcwd()) / "NCF_Pytorch" / "train_data.csv",
         "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
@@ -31,8 +27,8 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
         'out_path' : Path(os.getcwd()) / f"GMF_Models/{output_folder_path}/",
         'topK' : topK,            ## Used in Evaluation.
         'shuffle' : shuffle,
-        'shuffle_users' : shuffle_users,
-        'shuffle_within_user':shuffle_within_user
+        'shuffle_items' : shuffle_items,
+        'shuffle_within_item':shuffle_within_item
     }
     
     # print('Configurations: ')
@@ -64,7 +60,7 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
     train_logger.info(f"GMF Model loaded")
 
     # train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
-    train_data_loader = train_data_object.get_user_centric_dataloader(shuffle_users= configurations['shuffle_users'], batch_size= configurations['batch_size'], shuffle_within_user=configurations['shuffle_within_user'], num_workers=os.cpu_count() //2, pin_memory=True)
+    train_data_loader = train_data_object.get_item_centric_dataloader(shuffle_items= configurations['shuffle_items'], batch_size= configurations['batch_size'], shuffle_within_item=configurations['shuffle_within_item'], num_workers=os.cpu_count() //2, pin_memory=True)
     
     
     # testing the batch.
@@ -73,13 +69,9 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
     #     print("Batch index:", batch_idx)
     #     users, items, labels = batch 
         
-    #     # print(f"Users: {len(users.tolist())}")
-    #     uniques_users, user_counts = torch.unique(users, return_counts=True)
-    #     print(f"For user {uniques_users} and occured {user_counts}")
+    #     uniques_items, items_counts = torch.unique(items, return_counts=True)
+    #     print(f"For Item {uniques_items} and occured {items_counts}")
         
-    #     # print(users)
-    #     # print(f"items: {items.tolist()}")
-    #     # print(f"labels: {labels.values_count()}")
     #     uniques_ele, counts = torch.unique(labels, return_counts=True)
     #     print(f"uniques elements are : {uniques_ele}")
     #     print(f"count of that elements : {counts}")
@@ -94,7 +86,7 @@ def main(learner = 'adam', epochs = 3, batch_size= 256, num_factors = 10, num_ne
     train_GMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
 
 if __name__ == "__main__":
-    print("Calling from GMF User Centric Model Training.")
+    print("Calling from GMF Item Centric Model Training.")
     
-    main(learner = 'adam', epochs = 10, batch_size = -1, num_factors = 10, num_neg = -1, topK= 10, shuffle=False, shuffle_users=True, shuffle_within_user=True, output_folder_path=f"GMF_User_centric_pos_neg_eq", output_folder_path_log="GMF_User_centric_pos_neg_eq")
+    main(learner = 'adam', epochs = 10, batch_size = -1, num_factors = 10, num_neg = -1, topK= 10, shuffle=False, shuffle_items=True, shuffle_within_item=True, output_folder_path=f"GMF_Item_centric_pos_neg_eq_per_item", output_folder_path_log="GMF_Item_centric_pos_neg_eq_per_item")
     
