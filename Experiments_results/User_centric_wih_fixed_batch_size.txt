@@ -1,0 +1,46 @@
+Fixed Batch size = 256
+epoch = 50
+topk = 10
+
+Best Models:
+
+1.  postive interactions: 0.8 
+    negative interactions:0.19999999999999996 
+
+    best hr: 0.6165562913907284 
+    best ndcgs: 0.3478672265363506 
+    
+    Note: we run it for 50 epoch but the best model we got at 47th epoch.
+
+2.  postive interactions: 0.6
+    negative interactions:0.4 
+
+    best hr: 0.6041390728476821 
+    best ndcgs: 0.34750579445570695
+
+    Note: we run it for 50 epoch but the best model we got at 42th epoch.
+
+
+3.  postive interactions: 0.4
+    negative interactions:0.6 
+
+    best hr: 0.5847682119205299 
+    best ndcgs: 0.33172157365600935
+    
+    Note: we run it for 50 epoch but the best model we got at 50th epoch.
+
+4.  postive interactions: 0.2
+    negative interactions:0.8 
+
+    best hr: 0.5327814569536424
+    best ndcgs: 0.3002139043933455
+    
+    Note: we run it for 50 epoch but the best model we got at 50th epoch.
+
+5.  postive interactions: 0.05
+    negative interactions:0.95 
+
+    best hr: 0.45827814569536424 
+    best ndcgs: 0.25463981450608025
+    
+    Note: we run it for 50 epoch but the best model we got at 3th epoch.

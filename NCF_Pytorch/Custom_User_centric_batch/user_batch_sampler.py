@@ -46,7 +46,162 @@ class UserBatchSampler(Sampler):
                         continue
                 
                     yield batch
-                
-            
+                    
     def __len__(self):
         return len(self.users)
+    
+
+                
+                
+# class FixedRatioBatchSampler(Sampler):
+#     def __init__(self, user_ids, item_ids, user_item_set, num_items, batch_size=256, pos_percent=0.5):
+        
+#         self.batch_size = batch_size
+#         self.pos_percent = pos_percent
+#         self.user_item_set = user_item_set
+#         self.num_items = num_items
+        
+#         # Store positives per user
+#         self.user_pos = {}
+#         for idx, u in enumerate(user_ids):
+#             if u not in self.user_pos:
+#                 self.user_pos[u] = []
+#             self.user_pos[u].append(idx)
+        
+#         self.users = list(self.user_pos.keys())
+    
+#     def __iter__(self):
+#         users = self.users.copy()
+        
+#         batch = []
+        
+#         for u in users:
+            
+#             pos_indices = self.user_pos[u]
+#             # Take most recent positives for this user
+#             num_pos = int(self.batch_size * self.pos_percent)
+#             num_pos = min(num_pos, len(pos_indices))
+#             batch.extend(pos_indices[-num_pos:])
+            
+#             # Dynamically sample negatives for this user
+#             num_neg = self.batch_size - len(batch)
+            
+#             neg_samples = []
+            
+#             while len(neg_samples) < num_neg:
+#                 neg_item = random.randint(0, self.num_items - 1)
+#                 if (u, neg_item) not in self.user_item_set:
+#                     neg_samples.append(neg_item)
+            
+#             # Store negative interactions as (user, item)
+            
+#             for item in neg_samples:
+#                 batch.append(('neg', u, item))  
+            
+#             if len(batch) == self.batch_size:
+#                 yield batch
+#                 batch = []
+        
+#         if len(batch) > 0:
+#             yield batch
+    
+#     def __len__(self):
+#         return len(self.users)
+
+
+
+class FixedRatioBatchSampler(Sampler):
+    """
+    Batch sampler that ensures each batch has a fixed size and maintains
+    a ratio of positive and negative interactions per user.
+    """
+
+    def __init__(self, user_ids, item_ids, labels, user_item_set, num_items,
+                 batch_size=256, pos_percent=0.5, shuffle_users=True, shuffle_within_user=True):
+
+        self.batch_size = batch_size
+        self.pos_percent = pos_percent
+        self.neg_percent = 1 - pos_percent
+        self.user_item_set = user_item_set
+        self.num_items = num_items
+        self.shuffle_users = shuffle_users
+        self.shuffle_within_user = shuffle_within_user
+
+        # Store positives per user
+        self.user_pos = {}
+        self.user_neg = {}
+        
+        for idx, (u, i, l) in enumerate(zip(user_ids, item_ids, labels)):
+            
+            if u not in self.user_pos:
+                self.user_pos[u] = []
+                
+            if u not in self.user_neg:
+                self.user_neg[u] = []
+
+            if l == 1:
+                self.user_pos[u].append(idx)
+            if l == 0:
+                self.user_neg[u].append(idx)
+                
+
+        self.users = list(self.user_pos.keys())
+
+    def __iter__(self):
+        users = self.users.copy()
+        if self.shuffle_users:
+            random.shuffle(users)
+
+        batch = []
+
+        for u in users:
+            pos_items = self.user_pos[u].copy()
+
+            if self.shuffle_within_user:
+                random.shuffle(pos_items)
+
+            
+            
+            num_pos = int(self.batch_size * self.pos_percent)
+            
+            num_pos = min(num_pos, len(pos_items))
+            
+            # print(f"Number of positve we want to take: {num_pos}")
+            # print(f"Number of positves user have : {len(pos_items)}")
+            
+            batch.extend(pos_items[len(pos_items)-num_pos:])
+
+            num_neg = int(self.batch_size * self.neg_percent)
+
+            neg_items = self.user_neg[u].copy()
+
+            random.shuffle(neg_items)
+            
+            batch.extend(neg_items[:num_neg])
+            
+
+            yield batch
+            batch = []
+            
+            # if len(batch) == self.batch_size:
+            #     yield batch
+            #     batch = []
+            # else:
+            #     print("Error")
+            #     print(f"Shape of Batch is :{len(batch)}")
+        
+        if len(batch) > 0:
+            yield batch
+            
+    def __len__(self):
+        # batches = 0
+        # for u in self.users:
+        #     num_pos = min(int(self.batch_size * self.pos_percent), len(self.user_pos[u]))
+        #     num_neg = min(int(self.batch_size * self.neg_percent), len(self.user_neg[u]))
+        #     taken = num_pos + num_neg
+        #     if taken > 0:
+        #         batches += 1   # because you yield once per user
+                
+        # return batches
+        
+        return len(set(self.users))
