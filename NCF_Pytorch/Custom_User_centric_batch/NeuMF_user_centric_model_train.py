@@ -71,14 +71,16 @@ def main(learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_size= 256, num
     train_NeuMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
 
 if __name__ == "__main__":
+    
     print("Calling from NeuMF User Centric Training.")
     
-    for i in [0.80, 0.60, 0.40, 0.20, 0.05]:
+    # for i in [0.80, 0.60, 0.40, 0.20, 0.05]:
+    for i in [0.40, 0.20, 0.05]:
         main(
             learner = 'adam', 
             layers= [32, 16, 8],
             epochs = 50, 
-            batch_size = 256, 
+            batch_size = 1024, 
             num_factors = 10, 
             num_neg = -1, 
             topK= 10, 

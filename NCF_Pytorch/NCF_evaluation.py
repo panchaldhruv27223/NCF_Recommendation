@@ -12,6 +12,9 @@ class NCFEvaluator:
     def evaluate(self):
         ndcg = []
         hit = []
+        precision = []
+        recall = []
+
         self.model.eval()
         
         with torch.no_grad():
@@ -41,11 +44,25 @@ class NCFEvaluator:
                 # Metrics
                 hr_val = self.getHitRate(ranklist, pos_item)
                 ndcg_val = self.getNDCG(ranklist, pos_item)
+                prec_val = self.getPrecision(ranklist, [pos_item])
+                rec_val = self.getRecall(ranklist, [pos_item])
+
                 
                 hit.append(hr_val)
                 ndcg.append(ndcg_val)
+                precision.append(prec_val)
+                recall.append(rec_val)
+
                 
-        return (hit, ndcg)
+        # return {
+        #     "HitRate": sum(hit) / len(hit),
+        #     "nDCG": sum(ndcg) / len(ndcg),
+        #     "Precision": sum(precision) / len(precision),
+        #     "Recall": sum(recall) / len(recall)
+        # }
+        
+        return (sum(hit) / len(hit), sum(ndcg) / len(ndcg), sum(precision) / len(precision), sum(recall) / len(recall))
+
     
     def getHitRate(self, ranklist, get_item):
         for item in ranklist:
@@ -61,6 +78,14 @@ class NCFEvaluator:
             
         return 0
     
+    def getPrecision(self, ranklist, ground_truth_items):
+        hits = sum([1 for item in ranklist if item in ground_truth_items])
+        return hits / len(ranklist)
+
+    def getRecall(self, ranklist, ground_truth_items):
+        hits = sum([1 for item in ranklist if item in ground_truth_items])
+        return hits / len(ground_truth_items)
+
     
 if __name__ == "__main__":
     print("Calling from NCF Evaluation.")

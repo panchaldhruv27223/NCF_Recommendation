@@ -143,9 +143,10 @@ def train_NeuMF_model(model, train_loader, test_negative_dataset, config, NCFEva
         t2 = time.time()
         train_logger.info(f"Time taken to complete epoch no {epoch}: {t2-t1}")
         
-        hits, ndcgs = evaluator.evaluate()
-        hits = sum(hits)/len(hits)
-        ndcgs = sum(ndcgs)/len(ndcgs)
+        hits, ndcgs, precision, recall = evaluator.evaluate()
+        
+        # hits = sum(hits)/len(hits)
+        # ndcgs = sum(ndcgs)/len(ndcgs)
         
         avg_loss = total_loss / len(train_loader)
         
