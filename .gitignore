@@ -7,10 +7,14 @@ __pycache__/
 *.so
 
 ## Data Folders
+*.csv
 
 Dataset/
 data/
 datasets/
+
+evaluation_results/
+evaluation_plots/
 
 *.pth
 *.json

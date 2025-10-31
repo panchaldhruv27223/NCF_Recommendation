@@ -82,22 +82,22 @@ def evaluate_trained_model(model_path, config, device='cpu'):
     # plt.close()
 
     # === Individual Metric Plots ===
-    for metric_name, value in metrics.items():
-        plt.figure(figsize=(5, 4))
-        display_name = f"{metric_name}@{topk}" if "@K" not in metric_name else metric_name
-        plt.bar(display_name, value, color='steelblue')
-        plt.ylim(0, 1)
-        plt.title(f"{model_name} - {display_name} ({dataset_name})", fontsize=14, pad=12)
-        plt.ylabel("Score", fontsize=12)
-        plt.grid(axis='y', linestyle='--', alpha=0.4)
+    # for metric_name, value in metrics.items():
+    #     plt.figure(figsize=(5, 4))
+    #     display_name = f"{metric_name}@{topk}" if "@K" not in metric_name else metric_name
+    #     plt.bar(display_name, value, color='steelblue')
+    #     plt.ylim(0, 1)
+    #     plt.title(f"{model_name} - {display_name} ({dataset_name})", fontsize=14, pad=12)
+    #     plt.ylabel("Score", fontsize=12)
+    #     plt.grid(axis='y', linestyle='--', alpha=0.4)
 
-        # Add numerical label on top
-        plt.text(display_name, value + 0.02, f"{value:.4f}", ha='center', fontsize=11, weight='bold')
+    #     # Add numerical label on top
+    #     plt.text(display_name, value + 0.02, f"{value:.4f}", ha='center', fontsize=11, weight='bold')
 
-        plt.tight_layout()
-        filename = f"{dataset_name}_{display_name}_score.png".replace('@', 'At')
-        plt.savefig(os.path.join(config["plots_path"], filename))
-        plt.close()
+    #     plt.tight_layout()
+    #     filename = f"{dataset_name}_{display_name}_score.png".replace('@', 'At')
+    #     plt.savefig(os.path.join(config["plots_path"], filename))
+    #     plt.close()
 
     # === Combined Plot ===
     plt.figure(figsize=(8, 5))
@@ -123,18 +123,166 @@ def evaluate_trained_model(model_path, config, device='cpu'):
 
 if __name__ == "__main__":
     
+    # config = {
+    #     "dataset": "MovieLens1M",
+    #     "model_name": "NeuMF",
+    #     "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+    #     "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+    #     "topK": 20,
+    #     "neg_ratio": 0.95,
+    #     "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.05_0.95_topk_20/",
+    #     "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.05_0.95_topk_20/"
+    # }
+
+    # model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.05_0.95/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+
+
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    # evaluate_trained_model(model_path, config, device)
+
+    # config = {
+    #     "dataset": "MovieLens1M",
+    #     "model_name": "NeuMF",
+    #     "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+    #     "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+    #     "topK": 20,
+    #     "neg_ratio": 0.8,
+    #     "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.2_0.8_topk_20/",
+    #     "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.2_0.8_topk_20/"
+    # }
+
+    # model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.2_0.8/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+
+
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    # evaluate_trained_model(model_path, config, device)
+
+
+    # config = {
+    #     "dataset": "MovieLens1M",
+    #     "model_name": "NeuMF",
+    #     "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+    #     "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+    #     "topK": 20,
+    #     "neg_ratio": 0.6,
+    #     "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.4_0.6_topk_20/",
+    #     "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.4_0.6_topk_20/"
+    # }
+
+    # model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.4_0.6/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+
+
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    # evaluate_trained_model(model_path, config, device)
+
+
+    # config = {
+    #     "dataset": "MovieLens1M",
+    #     "model_name": "NeuMF",
+    #     "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+    #     "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+    #     "topK": 20,
+    #     "neg_ratio": 0.4,
+    #     "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_20/",
+    #     "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_20/"
+    # }
+
+    # model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+
+
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    # evaluate_trained_model(model_path, config, device)
+
+
+    # config = {
+    #     "dataset": "MovieLens1M",
+    #     "model_name": "NeuMF",
+    #     "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+    #     "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+    #     "topK": 20,
+    #     "neg_ratio": 0.2,
+    #     "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.8_0.2_topk_20/",
+    #     "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.8_0.2_topk_20/"
+    # }
+
+    # model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.8_0.19999999999999996/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+
+
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    # evaluate_trained_model(model_path, config, device)
+
+
+    config = {
+        "dataset": "MovieLens1M",
+        "model_name": "NeuMF",
+        "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+        "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+        "topK": 5,
+        "neg_ratio": 0.4,
+        "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_5/",
+        "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_5/"
+    }
+
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    evaluate_trained_model(model_path, config, device)
+    
     config = {
         "dataset": "MovieLens1M",
         "model_name": "NeuMF",
         "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 10,
-        "neg_ratio": 0.40,
-        "results_path": "evaluation_results/NeuMF_User_centric_pos_neg_ratio_0.6_0.4/",
-        "plots_path": "evaluation_plots/NeuMF_User_centric_pos_neg_ratio_0.6_0.4/"
+        "neg_ratio": 0.4,
+        "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_10/",
+        "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_10/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    evaluate_trained_model(model_path, config, device)
+    
+    config = {
+        "dataset": "MovieLens1M",
+        "model_name": "NeuMF",
+        "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+        "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+        "topK": 20,
+        "neg_ratio": 0.4,
+        "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_20/",
+        "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_20/"
+    }
+
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    evaluate_trained_model(model_path, config, device)
+
+    config = {
+        "dataset": "MovieLens1M",
+        "model_name": "NeuMF",
+        "test_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_data.csv",
+        "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
+        "topK": 50,
+        "neg_ratio": 0.4,
+        "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_50/",
+        "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_50/"
+    }
+
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"

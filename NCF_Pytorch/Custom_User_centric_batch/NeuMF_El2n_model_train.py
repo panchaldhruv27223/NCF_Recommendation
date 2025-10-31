@@ -7,10 +7,11 @@ from NCF_Pytorch.NeuMF_model import NeuMF, train_NeuMF_model
 from NCF_Pytorch.ml_1m_dataset import NCFTestDataset
 from User_centric_batch_data import NCFTrainDataset
 from NCF_Pytorch.NCF_evaluation import NCFEvaluator
+from EL2N_data import NcfEl2nTrainDataset
 from NCF_Pytorch.logger import setup_logger
 
 
-def main(train_data="",learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, pos_percent=0.5, shuffle=False, shuffle_users=True, shuffle_within_user=True, output_folder_path="", output_folder_path_log = ""):
+def main(train_data="", learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, pos_percent=0.5, shuffle=False, shuffle_users=True, shuffle_within_user=True, output_folder_path="", output_folder_path_log = ""):
 
     configurations = {
         "train_data" : Path(os.getcwd()) / "NCF_Pytorch" / "train_data.csv" if train_data =="" else train_data,
@@ -41,72 +42,49 @@ def main(train_data="",learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_
     eval_logger, eval_logger_path = setup_logger(output_folder_path_log, "evaluation", config=configurations)
 
     eval_logger.info("Starting NeuMF User Centric Evaluation")
-
-    train_data_object = NCFTrainDataset(train_csv=configurations["train_data"], num_negatives=configurations["num_neg"], pos_percent =configurations["pos_percent"])
-
+    print(f"Trainig path : {configurations['train_data']}")
+    train_data_object = NcfEl2nTrainDataset(train_csv=configurations['train_data'])
+    # print(train_data_object)
+    
     test_data_object = NCFTestDataset(test_csv=configurations["test_data"], test_negative_csv=configurations["test_negative_data"])
 
     num_users = train_data_object.num_users
     num_items = train_data_object.num_items
     
-    # print(f"Number of users: {num_users}, Number of items: {num_items}")
-    train_logger.info(f"Total number of users are : {num_users}")
-    train_logger.info(f"Total number of items are : {num_items}")
+    # print(f"Total Number of Users are : {num_users}")
+    # print(f"Total Number of items are : {num_items}")
+    
+    # train_logger.info(f"Total number of users are : {num_users}")
+    # train_logger.info(f"Total number of items are : {num_items}")
 
     Model = NeuMF(num_users=num_users, num_items=num_items, latent_dim=configurations["num_factors"], layers=configurations["layers"], train_logger = train_logger)
     
     train_logger.info("NeuMF User Centric Model loaded.")
     eval_logger.info("NeuMF User Centric Model loaded.")
 
-    # train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
-    # test_data_loader = DataLoader(test_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
-    # train_data_loader = train_data_object.get_user_centric_dataloader(shuffle_users= configurations['shuffle_users'], batch_size= configurations['batch_size'], shuffle_within_user=configurations['shuffle_within_user'], num_workers=os.cpu_count()//2, pin_memory=False)
-    
-    train_data_loader = train_data_object.get_fixed_ratio_neg_batch_per_user(batch_size=configurations["batch_size"], shuffle_users=configurations["shuffle_users"], shuffle_within_user=configurations["shuffle_within_user"])
-  
-    ## Finally Train NeuMF Model
-    train_logger.info(f"NeuMF User Centric Model passed for training...")
-    eval_logger.info("NeuMF User Centric Model Passed for Evaluation...")
+    train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
+
+    # train_logger.info(f"NeuMF User Centric Model passed for training...")
+    # eval_logger.info("NeuMF User Centric Model Passed for Evaluation...")
     
     train_NeuMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
 
 if __name__ == "__main__":
     
-    print("Calling from NeuMF User Centric Training.")
-    
-    # for i in [0.80, 0.60, 0.40, 0.20, 0.05]:
-    # for i in [0.80, 0.40, 0.20, 0.05]:
-    #     main(
-    #         train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_positive.csv",
-    #         learner = 'adam', 
-    #         layers= [32, 16, 8],
-    #         epochs = 50, 
-    #         batch_size = 1024, 
-    #         num_factors = 10, 
-    #         num_neg = -1, 
-    #         topK= 10, 
-    #         pos_percent=i, 
-    #         shuffle=False, 
-    #         shuffle_users=False, 
-    #         shuffle_within_user=False, 
-    #         output_folder_path=f"NeuMF_EL2N_User_centric_pos_neg_ratio_{i}_{1-i}", 
-    #         output_folder_path_log=f"NeuMF_EL2N_User_centric_pos_neg_ratio_{i}_{1-i}"
-    #     )
-    
+    print("Calling from NeuMF El2N User Centric Training.")
 
-    main(
-            train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_positive.csv",
+    for i in [3,5,10]:
+        main(train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/all_user_item_pairs.csv",
             learner = 'adam', 
             layers= [32, 16, 8],
-            epochs = 50, 
+            epochs = i, 
             batch_size = 1024, 
             num_factors = 10, 
             num_neg = -1, 
             topK= 10, 
-            pos_percent=0.60, 
+            pos_percent=-1, 
             shuffle=False, 
             shuffle_users=False, 
             shuffle_within_user=False, 
-            output_folder_path=f"NeuMF_EL2N_User_centric_pos_neg_ratio_{0.60}_{1-0.60}", 
-            output_folder_path_log=f"NeuMF_EL2N_User_centric_pos_neg_ratio_{0.60}_{1-0.60}"
-        )
+            output_folder_path=f"NeuMF_User_centric_El2n_model_{i}epoch", 
+            output_folder_path_log=f"NeuMF_User_centric_El2n_model_{i}epoch")
