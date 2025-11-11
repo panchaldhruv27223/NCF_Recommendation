@@ -1,0 +1,26 @@
+Run Summary:
+El2n_40_data: 
+Execution Time: 5833.29 seconds
+CO₂ Emitted: 0.000239 kg
+----------------------------------------
+Run Summary:
+El2n_15_data: 
+Execution Time: 4732.42 seconds
+CO₂ Emitted: 0.000192 kg
+----------------------------------------
+Run Summary:
+El2n_20_data: 
+Execution Time: 4937.79 seconds
+CO₂ Emitted: 0.000200 kg
+----------------------------------------
+Run Summary:
+El2n_25_data: 
+Execution Time: 5231.98 seconds
+CO₂ Emitted: 0.000211 kg
+----------------------------------------
+
+Run Summary:
+El2n_30_data: 
+Execution Time: 5470.46 seconds
+CO₂ Emitted: 0.000223 kg
+----------------------------------------

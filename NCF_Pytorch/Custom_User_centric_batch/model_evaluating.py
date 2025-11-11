@@ -224,11 +224,11 @@ if __name__ == "__main__":
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 5,
         "neg_ratio": 0.4,
-        "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_5/",
-        "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_5/"
+        "results_path": "evaluation_results/NeuMF_EL2N_40_User_centric_pos_neg_ratio_0.6_0.4_topk_5/",
+        "plots_path": "evaluation_plots/NeuMF_EL2N_40_User_centric_pos_neg_ratio_0.6_0.4_topk_5/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/final_NeuMF_El2n_40_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -242,11 +242,11 @@ if __name__ == "__main__":
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 10,
         "neg_ratio": 0.4,
-        "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_10/",
-        "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_10/"
+        "results_path": "evaluation_results/NeuMF_EL2N_40_User_centric_pos_neg_ratio_0.6_0.4_topk_10/",
+        "plots_path": "evaluation_plots/NeuMF_EL2N_40_User_centric_pos_neg_ratio_0.6_0.4_topk_10/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/final_NeuMF_El2n_40_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -260,11 +260,11 @@ if __name__ == "__main__":
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 20,
         "neg_ratio": 0.4,
-        "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_20/",
-        "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_20/"
+        "results_path": "evaluation_results/NeuMF_EL2N_40_User_centric_pos_neg_ratio_0.6_0.4_topk_20/",
+        "plots_path": "evaluation_plots/NeuMF_EL2N_40_User_centric_pos_neg_ratio_0.6_0.4_topk_20/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/final_NeuMF_El2n_40_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -278,11 +278,11 @@ if __name__ == "__main__":
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 50,
         "neg_ratio": 0.4,
-        "results_path": "evaluation_results/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_50/",
-        "plots_path": "evaluation_plots/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4_topk_50/"
+        "results_path": "evaluation_results/NeuMF_EL2N_40_User_centric_pos_neg_ratio_0.6_0.4_topk_50/",
+        "plots_path": "evaluation_plots/NeuMF_EL2N_40_User_centric_pos_neg_ratio_0.6_0.4_topk_50/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/NeuMF_EL2N_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/final_NeuMF_El2n_40_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"

@@ -9,6 +9,8 @@ from User_centric_batch_data import NCFTrainDataset
 from NCF_Pytorch.NCF_evaluation import NCFEvaluator
 from EL2N_data import NcfEl2nTrainDataset
 from NCF_Pytorch.logger import setup_logger
+import time
+from codecarbon import EmissionsTracker
 
 
 def main(train_data="", learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, pos_percent=0.5, shuffle=False, shuffle_users=True, shuffle_within_user=True, output_folder_path="", output_folder_path_log = ""):
@@ -73,18 +75,53 @@ if __name__ == "__main__":
     
     print("Calling from NeuMF El2N User Centric Training.")
 
-    for i in [3,5,10]:
-        main(train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/all_user_item_pairs.csv",
-            learner = 'adam', 
-            layers= [32, 16, 8],
-            epochs = i, 
-            batch_size = 1024, 
-            num_factors = 10, 
-            num_neg = -1, 
-            topK= 10, 
-            pos_percent=-1, 
-            shuffle=False, 
-            shuffle_users=False, 
-            shuffle_within_user=False, 
-            output_folder_path=f"NeuMF_User_centric_El2n_model_{i}epoch", 
-            output_folder_path_log=f"NeuMF_User_centric_El2n_model_{i}epoch")
+    # for i in [5,10]:
+    #     tracker = EmissionsTracker()
+    #     tracker.start()
+    #     start = time.time()
+
+    #     main(train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/all_user_item_pairs.csv",
+    #         learner = 'adam', 
+    #         layers= [32, 16, 8],
+    #         epochs = i, 
+    #         batch_size = 1024, 
+    #         num_factors = 10, 
+    #         num_neg = -1, 
+    #         topK= 10, 
+    #         pos_percent=-1, 
+    #         shuffle=False, 
+    #         shuffle_users=False, 
+    #         shuffle_within_user=False, 
+    #         output_folder_path=f"NeuMF_User_centric_El2n_model_{i}epoch", 
+    #         output_folder_path_log=f"NeuMF_User_centric_El2n_model_{i}epoch")
+        
+    #     end = time.time()
+    #     emissions = tracker.stop()
+    #     print(f"Execution time: {end - start:.2f}s")
+    #     print(f"CO₂ emitted: {emissions:.6f} kg")
+
+
+    i = 10
+    tracker = EmissionsTracker(log_level="error")
+    tracker.start()
+    start = time.time()
+
+    main(train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/all_user_item_pairs.csv",
+        learner = 'adam', 
+        layers= [32, 16, 8],
+        epochs = i, 
+        batch_size = 1024, 
+        num_factors = 10, 
+        num_neg = -1, 
+        topK= 10, 
+        pos_percent=-1, 
+        shuffle=False, 
+        shuffle_users=False, 
+        shuffle_within_user=False, 
+        output_folder_path=f"NeuMF_User_centric_El2n_model_{i}epoch", 
+        output_folder_path_log=f"NeuMF_User_centric_El2n_model_{i}epoch")
+    
+    end = time.time()
+    emissions = tracker.stop()
+    print(f"Execution time: {end - start:.2f}s")
+    print(f"CO₂ emitted: {emissions:.6f} kg")

@@ -6,27 +6,30 @@ readme = "README.md"
 requires-python = "==3.12.3"
 authors = [{ name = "Dhruv Panchal", email = "panchaldhruv27223@gmail.com" }]
 license = { file = "LICENSE" }
-dependencies = ["torch",                # PyTorch
-                "torchvision",          # For datasets/transforms if needed
-                "torchaudio",           # (optional) for audio tasks
-                "tensorflow",           # TensorFlow
-                "keras",                # Keras
-                "numpy",
-                "pandas",
-                "scikit-learn",
-                "matplotlib",
-                "seaborn",
-                "requests",
-                "tqdm",
-                "jupyterlab",
-                "notebook",
-                "ipykernel",
-                "nbformat",
-                "nbconvert",
-                "scipy",
-                "h5py",
-                "flask",
-                "fastapi"]
+dependencies = [
+    "torch", # PyTorch
+    "torchvision", # For datasets/transforms if needed
+    "torchaudio", # (optional) for audio tasks
+    "tensorflow", # TensorFlow
+    "keras", # Keras
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "requests",
+    "tqdm",
+    "jupyterlab",
+    "notebook",
+    "ipykernel",
+    "nbformat",
+    "nbconvert",
+    "scipy",
+    "h5py",
+    "flask",
+    "fastapi",
+    "codecarbon>=3.0.8",
+]
 
 [build-system]
 requires = ["hatchling"]

@@ -22,9 +22,9 @@ class NCFTrainDataset(Dataset):
 
         self.user_item_set = set(zip(self.train_df["UserID"],self.train_df["ItemID"]))
         
-        self.num_items = max(num_items, max(self.train_df["ItemID"])+1)
+        self.num_items = int(max(num_items, max(self.train_df["ItemID"])+1))
         
-        self.num_users = max(num_users, max(self.train_df["UserID"])+1)
+        self.num_users = int(max(num_users, max(self.train_df["UserID"])+1))
         
         self.num_negatives = num_negatives
         

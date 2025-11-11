@@ -23,7 +23,6 @@ class NcfEl2nTrainDataset(Dataset):
         self.users, self.items, self.labels = self.train_df["user"], self.train_df["item"], self.train_df["label"]
 
 
-
     def __len__(self):
         return len(self.labels)
     

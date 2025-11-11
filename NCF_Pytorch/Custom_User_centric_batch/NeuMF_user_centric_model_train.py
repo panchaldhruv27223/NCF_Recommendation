@@ -8,6 +8,8 @@ from NCF_Pytorch.ml_1m_dataset import NCFTestDataset
 from User_centric_batch_data import NCFTrainDataset
 from NCF_Pytorch.NCF_evaluation import NCFEvaluator
 from NCF_Pytorch.logger import setup_logger
+import time
+from codecarbon import EmissionsTracker
 
 
 def main(train_data="",learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_size= 256, num_factors = 10, num_neg = 2, topK= 10, pos_percent=0.5, shuffle=False, shuffle_users=True, shuffle_within_user=True, output_folder_path="", output_folder_path_log = ""):
@@ -93,9 +95,12 @@ if __name__ == "__main__":
     #         output_folder_path_log=f"NeuMF_EL2N_User_centric_pos_neg_ratio_{i}_{1-i}"
     #     )
     
+    tracker = EmissionsTracker(log_level="error")
+    tracker.start()
+    start = time.time()
 
     main(
-            train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_positive.csv",
+            train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_30_data.csv",
             learner = 'adam', 
             layers= [32, 16, 8],
             epochs = 50, 
@@ -107,6 +112,77 @@ if __name__ == "__main__":
             shuffle=False, 
             shuffle_users=False, 
             shuffle_within_user=False, 
-            output_folder_path=f"NeuMF_EL2N_User_centric_pos_neg_ratio_{0.60}_{1-0.60}", 
-            output_folder_path_log=f"NeuMF_EL2N_User_centric_pos_neg_ratio_{0.60}_{1-0.60}"
+            output_folder_path=f"final_NeuMF_El2n_30_User_centric_pos_neg_ratio_{0.60}_{1-0.60}", 
+            output_folder_path_log=f"final_NeuMF_El2n_30_User_centric_pos_neg_ratio_{0.60}_{1-0.60}"
         )
+    
+    
+    
+    # main(
+    #         train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_15_data.csv",
+    #         learner = 'adam', 
+    #         layers= [32, 16, 8],
+    #         epochs = 50, 
+    #         batch_size = 1024, 
+    #         num_factors = 10, 
+    #         num_neg = -1, 
+    #         topK= 10, 
+    #         pos_percent=0.60, 
+    #         shuffle=False, 
+    #         shuffle_users=False, 
+    #         shuffle_within_user=False, 
+    #         output_folder_path=f"final_NeuMF_El2n_15_User_centric_pos_neg_ratio_{0.60}_{1-0.60}", 
+    #         output_folder_path_log=f"final_NeuMF_El2n_15_User_centric_pos_neg_ratio_{0.60}_{1-0.60}"
+    #     )
+    
+    
+    # main(
+    #         train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_25_data.csv",
+    #         learner = 'adam', 
+    #         layers= [32, 16, 8],
+    #         epochs = 50, 
+    #         batch_size = 1024, 
+    #         num_factors = 10, 
+    #         num_neg = -1, 
+    #         topK= 10, 
+    #         pos_percent=0.60, 
+    #         shuffle=False, 
+    #         shuffle_users=False, 
+    #         shuffle_within_user=False, 
+    #         output_folder_path=f"final_NeuMF_El2n_25_User_centric_pos_neg_ratio_{0.60}_{1-0.60}", 
+    #         output_folder_path_log=f"final_NeuMF_El2n_25_User_centric_pos_neg_ratio_{0.60}_{1-0.60}"
+    #     )
+    
+    # main(
+    #         train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_40_data.csv",
+    #         learner = 'adam', 
+    #         layers= [32, 16, 8],
+    #         epochs = 50, 
+    #         batch_size = 1024, 
+    #         num_factors = 10, 
+    #         num_neg = -1, 
+    #         topK= 10, 
+    #         pos_percent=0.60, 
+    #         shuffle=False, 
+    #         shuffle_users=False, 
+    #         shuffle_within_user=False, 
+    #         output_folder_path=f"final_NeuMF_El2n_40_User_centric_pos_neg_ratio_{0.60}_{1-0.60}", 
+    #         output_folder_path_log=f"final_NeuMF_El2n_40_User_centric_pos_neg_ratio_{0.60}_{1-0.60}"
+    #     )
+        
+        
+    end = time.time()
+    emissions = tracker.stop()
+    output_file = "/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/time_co2_info.txt"
+    
+    elapsed_time = end - start
+    
+    with open(output_file, "a") as f:
+        f.write(f"Run Summary:\n")
+        f.write(f"El2n_30_data: \n")
+        f.write(f"Execution Time: {elapsed_time:.2f} seconds\n")
+        f.write(f"CO₂ Emitted: {emissions:.6f} kg\n")
+        f.write("-" * 40 + "\n")
+
+    print(f"Execution time: {end - start:.2f}s")
+    print(f"CO₂ emitted: {emissions:.6f} kg")
