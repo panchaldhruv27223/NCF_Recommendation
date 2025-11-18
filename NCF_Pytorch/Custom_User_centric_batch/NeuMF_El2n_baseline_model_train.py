@@ -101,7 +101,7 @@ if __name__ == "__main__":
     #     print(f"CO₂ emitted: {emissions:.6f} kg")
 
 
-    i = 10
+    i = 50
     tracker = EmissionsTracker(log_level="error")
     tracker.start()
     start = time.time()
@@ -118,8 +118,8 @@ if __name__ == "__main__":
         shuffle=False, 
         shuffle_users=False, 
         shuffle_within_user=False, 
-        output_folder_path=f"NeuMF_User_centric_El2n_model_{i}epoch", 
-        output_folder_path_log=f"NeuMF_User_centric_El2n_model_{i}epoch")
+        output_folder_path=f"NeuMF_User_centric_full_model_{i}epoch", 
+        output_folder_path_log=f"NeuMF_User_centric_full_model_{i}epoch")
     
     end = time.time()
     emissions = tracker.stop()
