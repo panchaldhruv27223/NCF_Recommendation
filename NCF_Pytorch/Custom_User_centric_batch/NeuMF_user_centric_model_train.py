@@ -100,7 +100,7 @@ if __name__ == "__main__":
     start = time.time()
 
     main(
-            train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_30_data.csv",
+            train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_positive_75_data.csv",
             learner = 'adam', 
             layers= [32, 16, 8],
             epochs = 50, 
@@ -112,8 +112,8 @@ if __name__ == "__main__":
             shuffle=False, 
             shuffle_users=False, 
             shuffle_within_user=False, 
-            output_folder_path=f"final_NeuMF_El2n_30_User_centric_pos_neg_ratio_{0.60}_{1-0.60}", 
-            output_folder_path_log=f"final_NeuMF_El2n_30_User_centric_pos_neg_ratio_{0.60}_{1-0.60}"
+            output_folder_path=f"El2n_positive_75_data_User_centric_pos_neg_ratio_{0.60}_{1-0.60}", 
+            output_folder_path_log=f"El2n_positive_75_data_User_centric_pos_neg_ratio_{0.60}_{1-0.60}"
         )
     
     
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     
     with open(output_file, "a") as f:
         f.write(f"Run Summary:\n")
-        f.write(f"El2n_30_data: \n")
+        f.write(f"El2n_positive_75_data: \n")
         f.write(f"Execution Time: {elapsed_time:.2f} seconds\n")
         f.write(f"CO₂ Emitted: {emissions:.6f} kg\n")
         f.write("-" * 40 + "\n")
