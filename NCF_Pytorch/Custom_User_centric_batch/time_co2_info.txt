@@ -33,3 +33,8 @@ El2n_positive_75_data:
 Execution Time: 5276.82 seconds
 CO₂ Emitted: 0.039012 kg
 ----------------------------------------
+Run Summary:
+El2n_pos_75_neg_15_data: 
+Execution Time: 4727.71 seconds
+CO₂ Emitted: 0.000191 kg
+----------------------------------------

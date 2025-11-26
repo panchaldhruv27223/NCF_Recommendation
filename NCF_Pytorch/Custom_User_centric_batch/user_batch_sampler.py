@@ -116,13 +116,14 @@ class FixedRatioBatchSampler(Sampler):
     a ratio of positive and negative interactions per user.
     """
 
-    def __init__(self, user_ids, item_ids, labels, user_item_set, num_items,
+    def __init__(self, user_ids, item_ids, labels, user_item_set, user_item_label_set, num_items,
                  batch_size=256, pos_percent=0.5, shuffle_users=True, shuffle_within_user=True):
 
         self.batch_size = batch_size
         self.pos_percent = pos_percent
         self.neg_percent = 1 - pos_percent
         self.user_item_set = user_item_set
+        self.user_item_label_set = user_item_label_set
         self.num_items = num_items
         self.shuffle_users = shuffle_users
         self.shuffle_within_user = shuffle_within_user
@@ -131,17 +132,17 @@ class FixedRatioBatchSampler(Sampler):
         self.user_pos = {}
         self.user_neg = {}
         
-        for idx, (u, i, l) in enumerate(zip(user_ids, item_ids, labels)):
-            
+        for idx, (u, i, l) in enumerate(self.user_item_label_set):
+            # print(u,i,l)
             if u not in self.user_pos:
                 self.user_pos[u] = []
                 
             if u not in self.user_neg:
                 self.user_neg[u] = []
 
-            if l == 1:
+            if int(l) == 1:
                 self.user_pos[u].append(idx)
-            if l == 0:
+            if int(l) == 0:
                 self.user_neg[u].append(idx)
                 
 
@@ -172,13 +173,22 @@ class FixedRatioBatchSampler(Sampler):
             batch.extend(pos_items[len(pos_items)-num_pos:])
 
             num_neg = int(self.batch_size * self.neg_percent)
-
             neg_items = self.user_neg[u].copy()
+            
+            num_neg = min(num_neg, len(neg_items))
 
+            
             random.shuffle(neg_items)
-            
-            batch.extend(neg_items[:num_neg])
-            
+            # print(neg_items)
+            # print(num_neg)
+
+            if num_neg != 0:
+                # print(num_neg)
+                batch.extend(neg_items[:num_neg])
+            #     break
+            # else:
+            #     # print(num_neg)
+            #     continue
 
             yield batch
             batch = []

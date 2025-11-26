@@ -26,6 +26,8 @@ class NCFTrainDataset(Dataset):
         
         self.num_users = int(max(num_users, max(self.train_df["UserID"])+1))
         
+        self.user_item_label_set = set(zip(self.train_df["UserID"],self.train_df["ItemID"], self.train_df["label"]))
+        
         self.num_negatives = num_negatives
         
         self.pos_percent = pos_percent
@@ -153,7 +155,13 @@ class NCFTrainDataset(Dataset):
         return len(self.labels)
     
     def __getitem__(self, idx):
-        return torch.tensor(self.users[idx], dtype=torch.long), torch.tensor(self.items[idx], dtype=torch.long), torch.tensor(self.labels[idx], dtype=torch.long)
+        # return torch.tensor(self.users[idx], dtype=torch.long), torch.tensor(self.items[idx], dtype=torch.long), torch.tensor(self.labels[idx], dtype=torch.long)
+        u,i,l = list(self.user_item_label_set)[idx]
+        # print(u,i,l)
+        return torch.tensor(u, dtype=torch.long), torch.tensor(i, dtype=torch.long), torch.tensor(l, dtype=torch.long)
+        
+        
+        
         # if isinstance(idx, tuple) and len(idx) == 3:
         #     user, item, label = idx
         #     return torch.tensor(user, dtype=torch.long), \
@@ -188,6 +196,7 @@ class NCFTrainDataset(Dataset):
                 item_ids=self.item_id,
                 labels = self.labels,
                 user_item_set = self.user_item_set,
+                user_item_label_set = self.user_item_label_set,
                 num_items = self.num_items,
                 batch_size=batch_size,
                 pos_percent= self.pos_percent,
