@@ -41,11 +41,11 @@ def main(train_data="",learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_
     
     train_logger, train_logger_path = setup_logger(output_folder_path_log, "traning", config=configurations)
 
-    # train_logger.info("Starting NeuMF User Centric traning... ")
+    train_logger.info("Starting NeuMF User Centric traning... ")
 
     eval_logger, eval_logger_path = setup_logger(output_folder_path_log, "evaluation", config=configurations)
 
-    # eval_logger.info("Starting NeuMF User Centric Evaluation")
+    eval_logger.info("Starting NeuMF User Centric Evaluation")
 
     train_data_object = NCFTrainDataset(train_csv=configurations["train_data"], num_negatives=configurations["num_neg"], pos_percent =configurations["pos_percent"])
 
@@ -55,13 +55,13 @@ def main(train_data="",learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_
     num_items = train_data_object.num_items
     
     # # print(f"Number of users: {num_users}, Number of items: {num_items}")
-    # train_logger.info(f"Total number of users are : {num_users}")
-    # train_logger.info(f"Total number of items are : {num_items}")
+    train_logger.info(f"Total number of users are : {num_users}")
+    train_logger.info(f"Total number of items are : {num_items}")
 
     Model = NeuMF(num_users=num_users, num_items=num_items, latent_dim=configurations["num_factors"], layers=configurations["layers"], train_logger = train_logger)
     
-    # train_logger.info("NeuMF User Centric Model loaded.")
-    # eval_logger.info("NeuMF User Centric Model loaded.")
+    train_logger.info("NeuMF User Centric Model loaded.")
+    eval_logger.info("NeuMF User Centric Model loaded.")
 
     # train_data_loader = DataLoader(train_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
     # test_data_loader = DataLoader(test_data_object, configurations["batch_size"], shuffle=configurations["shuffle"])
@@ -71,7 +71,7 @@ def main(train_data="",learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_
     
     # print(train_data_loader)
     
-    data_loader_iter = iter(train_data_loader)
+    # data_loader_iter = iter(train_data_loader)
     
     # print(data_loader_iter)
     
@@ -80,74 +80,74 @@ def main(train_data="",learner = 'adam', layers= [32, 16, 8], epochs = 3, batch_
     # print(user)
     
     
-    out_csv = os.path.join(configurations["out_path"], "El2n_15_data_batch_info.csv")
+    # out_csv = os.path.join(configurations["out_path"], "El2n_15_data_batch_info.csv")
     
     
-    os.makedirs(os.path.dirname(out_csv) or ".", exist_ok=True)
+    # os.makedirs(os.path.dirname(out_csv) or ".", exist_ok=True)
 
-    def to_1d_numpy(x):
-        if isinstance(x, torch.Tensor):
-            x = x.detach().cpu().numpy()
-        arr = np.asarray(x)
-        if arr.ndim == 2 and arr.shape[1] == 1:
-            arr = arr[:, 0]
-        return arr.reshape(-1)
+    # def to_1d_numpy(x):
+    #     if isinstance(x, torch.Tensor):
+    #         x = x.detach().cpu().numpy()
+    #     arr = np.asarray(x)
+    #     if arr.ndim == 2 and arr.shape[1] == 1:
+    #         arr = arr[:, 0]
+    #     return arr.reshape(-1)
   
   
-    user_summary = {}
+    # user_summary = {}
 
-    for batch_idx, batch in enumerate(tqdm(data_loader_iter, desc="Building user summary")):
+    # for batch_idx, batch in enumerate(tqdm(data_loader_iter, desc="Building user summary")):
 
-        users_t, items_t, labels_t = batch
-        # print(users_t, items_t, labels_t)
-        # print(len(users_t))
+    #     users_t, items_t, labels_t = batch
+    #     # print(users_t, items_t, labels_t)
+    #     # print(len(users_t))
         
-        users = to_1d_numpy(users_t).astype(int)
-        items = to_1d_numpy(items_t).astype(int)
-        labels = to_1d_numpy(labels_t).astype(int)
+    #     users = to_1d_numpy(users_t).astype(int)
+    #     items = to_1d_numpy(items_t).astype(int)
+    #     labels = to_1d_numpy(labels_t).astype(int)
 
-        # print(users, items, labels)
+    #     # print(users, items, labels)
         
-        # print(np.unique(labels)).issubset({0., 1.})
+    #     # print(np.unique(labels)).issubset({0., 1.})
         
         
-        # if not set(np.unique(labels)).issubset({0, 1}):
-        #     labels_bin = (labels >= 1).astype(int)
-        # else:
-        #     labels_bin = labels.astype(int)
+    #     # if not set(np.unique(labels)).issubset({0, 1}):
+    #     #     labels_bin = (labels >= 1).astype(int)
+    #     # else:
+    #     #     labels_bin = labels.astype(int)
         
-        # print(labels_bin)
+    #     # print(labels_bin)
         
-        u = np.unique(users)
-        u = u[0]
+    #     u = np.unique(users)
+    #     u = u[0]
         
-        # print(u[0])
-        # break
-        total = int(len(users))
-        pos = int(labels.sum())
-        # print(total)
-        # print(pos)
+    #     # print(u[0])
+    #     # break
+    #     total = int(len(users))
+    #     pos = int(labels.sum())
+    #     # print(total)
+    #     # print(pos)
         
-        neg = total - pos
+    #     neg = total - pos
 
-        user_summary[u] = [total, pos, neg]
+    #     user_summary[u] = [total, pos, neg]
 
-        # break
+    #     # break
 
-    rows = []
-    for u, (total, pos, neg) in user_summary.items():
-        rows.append({"user_id": int(u), "total_items": total, "pos_count": pos, "neg_count": neg, "pos_rate": pos / total if total>0 else None})
+    # rows = []
+    # for u, (total, pos, neg) in user_summary.items():
+    #     rows.append({"user_id": int(u), "total_items": total, "pos_count": pos, "neg_count": neg, "pos_rate": pos / total if total>0 else None})
 
-    df = pd.DataFrame(rows).sort_values("user_id")
-    df.to_csv(out_csv, index=False)
-    print(f"Saved user summary to: {out_csv}")
-    print(df.head(10))
+    # df = pd.DataFrame(rows).sort_values("user_id")
+    # df.to_csv(out_csv, index=False)
+    # print(f"Saved user summary to: {out_csv}")
+    # print(df.head(10))
 
-    ## Finally Train NeuMF Model
+    # # Finally Train NeuMF Model
     # train_logger.info(f"NeuMF User Centric Model passed for training...")
     # eval_logger.info("NeuMF User Centric Model Passed for Evaluation...")
     
-    # train_NeuMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
+    train_NeuMF_model(Model, train_loader=train_data_loader, test_negative_dataset=test_data_object, config=configurations, NCFEvaluation=NCFEvaluator, train_logger = train_logger, test_logger = eval_logger, device="cpu")
     
     
     
@@ -180,7 +180,7 @@ if __name__ == "__main__":
     # start = time.time()
 
     main(
-            train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/El2n_15_data.csv",
+            train_data="/home/dhruv/Documents/NCF/NCF_Recommendation/NCF_Pytorch/Custom_User_centric_batch/df_pos_75_neg_75.csv",
             learner = 'adam', 
             layers= [32, 16, 8],
             epochs = 50, 
@@ -192,8 +192,8 @@ if __name__ == "__main__":
             shuffle=False, 
             shuffle_users=False, 
             shuffle_within_user=False, 
-            output_folder_path=f"El2n_15_data_batch_distribution_info", 
-            output_folder_path_log=f"El2n_15_data_batch_distribution_info"
+            output_folder_path=f"EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4", 
+            output_folder_path_log=f"EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4"
         )
     
     

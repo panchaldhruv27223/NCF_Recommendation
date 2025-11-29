@@ -278,11 +278,11 @@ if __name__ == "__main__":
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 50,
         "neg_ratio": 0.4,
-        "results_path": "evaluation_results/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_50/",
-        "plots_path": "evaluation_plots/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_50/"
+        "results_path": "evaluation_results/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_50/",
+        "plots_path": "evaluation_plots/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_50/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -296,11 +296,11 @@ if __name__ == "__main__":
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 20,
         "neg_ratio": 0.4,
-        "results_path": "evaluation_results/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_20/",
-        "plots_path": "evaluation_plots/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_20/"
+        "results_path": "evaluation_results/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_20/",
+        "plots_path": "evaluation_plots/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_20/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -314,11 +314,11 @@ if __name__ == "__main__":
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 10,
         "neg_ratio": 0.4,
-        "results_path": "evaluation_results/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_10/",
-        "plots_path": "evaluation_plots/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_10/"
+        "results_path": "evaluation_results/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_10/",
+        "plots_path": "evaluation_plots/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_10/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -332,11 +332,11 @@ if __name__ == "__main__":
         "test_negative_data" : Path(os.getcwd()) / "NCF_Pytorch" / "test_negative_data.csv",
         "topK": 5,
         "neg_ratio": 0.4,
-        "results_path": "evaluation_results/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_5/",
-        "plots_path": "evaluation_plots/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_5/"
+        "results_path": "evaluation_results/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_5/",
+        "plots_path": "evaluation_plots/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4_50_epoch_top_k_5/"
     }
 
-    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/El2n_pos_75_neg_15_data_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
+    model_path = "/home/dhruv/Documents/NCF/NCF_Recommendation/NeuMF_Models/EL2N_pos_75_neg_75_User_centric_pos_neg_ratio_0.6_0.4/ml-1m_NeuMF_Batch_1024_epoch_50_10.pth"
 
 
     device = "cuda" if torch.cuda.is_available() else "cpu"

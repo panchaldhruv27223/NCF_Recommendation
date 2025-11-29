@@ -27,6 +27,7 @@ class NCFTrainDataset(Dataset):
         self.num_users = int(max(num_users, max(self.train_df["UserID"])+1))
         
         self.user_item_label_set = set(zip(self.train_df["UserID"],self.train_df["ItemID"], self.train_df["label"]))
+        self.user_item_label_set_list = list(self.user_item_label_set)
         
         self.num_negatives = num_negatives
         
@@ -156,7 +157,7 @@ class NCFTrainDataset(Dataset):
     
     def __getitem__(self, idx):
         # return torch.tensor(self.users[idx], dtype=torch.long), torch.tensor(self.items[idx], dtype=torch.long), torch.tensor(self.labels[idx], dtype=torch.long)
-        u,i,l = list(self.user_item_label_set)[idx]
+        u,i,l = self.user_item_label_set_list[idx]
         # print(u,i,l)
         return torch.tensor(u, dtype=torch.long), torch.tensor(i, dtype=torch.long), torch.tensor(l, dtype=torch.long)
         
